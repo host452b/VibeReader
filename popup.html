@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+</head>
+<body>
+  <div id="app-container" style="display: flex; height: 100vh;">
+    <!-- Raw Context Panel (Hidden by default) -->
+    <div id="raw-panel" class="raw-panel" style="display: none;">
+      <div class="panel-header">
+        <span>:: RAW SIGNAL EDITOR ::</span>
+        <span id="raw-stats" class="panel-stats">L:0 T:0</span>
+      </div>
+      
+      <!-- Search Bar -->
+      <div class="raw-search-bar">
+        <input type="text" id="raw-search-input" placeholder="Find signal pattern...">
+        <button id="raw-search-prev" class="search-nav-btn">&#9650;</button>
+        <button id="raw-search-next" class="search-nav-btn">&#9660;</button>
+        <span id="raw-search-count">0/0</span>
+      </div>
+
+      <div class="editor-container">
+        <textarea id="raw-content-editor" placeholder="Waiting for signal..."></textarea>
+        <div id="raw-markers-overlay" class="markers-overlay"></div>
+      </div>
+    </div>
+
+    <div class="radio-case">
+
+      <!-- decorative corner rivets -->
+      <div class="rivet rivet-tl"></div>
+      <div class="rivet rivet-tr"></div>
+      <div class="rivet rivet-bl"></div>
+      <div class="rivet rivet-br"></div>
+
+      <!-- chassis nameplate -->
+      <div class="chassis-plate">
+        <span class="plate-brand">VIBEREADER</span>
+        <span class="plate-model">MODEL VR-MK3</span>
+        <span class="plate-serial">SN:2026-VRD</span>
+      </div>
+
+      <!-- Top Tuner Band Area -->
+      <div class="tuner-band">
+        <div class="brand-tag">VIBE-O-SCOPE</div>
+        <div class="vu-meter" id="vu-meter">
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar hot"></div>
+        </div>
+        <div class="frequency-scale">
+          <span class="freq-label">88</span>
+          <div class="scale-mark"></div>
+          <div class="scale-mark"></div>
+          <div class="scale-mark tall"></div>
+          <div class="scale-mark"></div>
+          <div class="scale-mark red-mark"></div>
+          <div class="scale-mark"></div>
+          <div class="scale-mark tall"></div>
+          <div class="scale-mark"></div>
+          <div class="scale-mark"></div>
+          <span class="freq-label">108</span>
+        </div>
+        <select id="prompt-template" class="mode-switch">
+          <option value="">MANUAL MODE</option>
+          <option value="devops-root-cause">DEVOPS DIAG</option>
+        </select>
+      </div>
+
+      <!-- heartbeat / pulse line -->
+      <div class="heartbeat-strip">
+        <svg class="heartbeat-svg" viewBox="0 0 300 20" preserveAspectRatio="none">
+          <polyline class="heartbeat-line"
+            points="0,10 20,10 25,10 30,3 35,17 40,10 45,10 60,10 65,10 70,3 75,17 80,10 85,10 100,10 105,10 110,3 115,17 120,10 125,10 140,10 145,10 150,3 155,17 160,10 165,10 180,10 185,10 190,3 195,17 200,10 205,10 220,10 225,10 230,3 235,17 240,10 245,10 260,10 265,10 270,3 275,17 280,10 285,10 300,10" />
+        </svg>
+      </div>
+
+      <!-- Status Bar for Current Page Context + Tab Picker -->
+      <div class="context-status-bar">
+        <div class="signal-indicator">
+          <span class="sig-dot"></span>
+          <span class="sig-dot"></span>
+          <span class="sig-dot"></span>
+        </div>
+        <div id="current-url" class="url-display" title="No page loaded">Target: [None]</div>
+        <button id="add-tab-btn" class="add-tab-btn" title="Add pages from other tabs">+ Add Page</button>
+      </div>
+
+      <!-- Loaded pages list -->
+      <div id="loaded-pages" class="loaded-pages" style="display: none;"></div>
+
+      <!-- Main Display Area -->
+      <div class="main-deck">
+        <div class="speaker left">
+          <div class="grill-line"></div>
+          <div class="grill-line"></div>
+          <div class="grill-line wide"></div>
+          <div class="grill-line"></div>
+          <div class="grill-line"></div>
+          <div class="grill-line wide"></div>
+          <div class="grill-line"></div>
+          <div class="grill-line"></div>
+          <div class="speaker-cone"></div>
+        </div>
+        
+        <div id="chat-display" class="screen-display">
+          <span id="screen-status" class="screen-status-indicator">STANDBY</span>
+          <div class="system-msg">:: SYSTEM READY ::</div>
+        </div>
+
+        <div class="speaker right">
+          <div class="grill-line"></div>
+          <div class="grill-line"></div>
+          <div class="grill-line wide"></div>
+          <div class="grill-line"></div>
+          <div class="grill-line"></div>
+          <div class="grill-line wide"></div>
+          <div class="grill-line"></div>
+          <div class="grill-line"></div>
+          <div class="speaker-cone"></div>
+        </div>
+      </div>
+
+      <!-- Control Panel -->
+      <div class="control-panel">
+        <div class="input-housing">
+          <textarea id="user-input" placeholder="INPUT SIGNAL..."></textarea>
+        </div>
+        
+        <div class="action-deck">
+          <div class="push-group">
+            <button id="send-btn" class="push-button red-btn">
+              <span class="btn-label">TRANSMIT</span>
+            </button>
+            <button id="stop-btn" class="push-button orange-btn" disabled>
+              <span class="btn-label">STOP</span>
+            </button>
+            <button id="refresh-btn" class="push-button green-btn">
+              <span class="btn-label">REFRESH</span>
+            </button>
+            <button id="raw-btn" class="push-button blue-btn">
+              <span class="btn-label">RAW_TXT</span>
+              <span id="raw-dot" class="notification-dot" style="display: none;"></span>
+            </button>
+          </div>
+          
+          <div class="toggle-group">
+            <button id="flow-btn" class="toggle-switch">FLOW</button>
+            <button id="settings-btn" class="toggle-switch">CFG</button>
+            <button id="clear-btn" class="toggle-switch">CLR</button>
+          </div>
+        </div>
+
+        <!-- bottom chassis strip -->
+        <div class="chassis-strip">
+          <span class="strip-text">VIBE ANALYSIS SYSTEM</span>
+          <span class="strip-dot"></span>
+          <span class="strip-text">48 KHz</span>
+          <span class="strip-dot"></span>
+          <span class="strip-text">CLASS-A</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="api-utils.js"></script>
+  <script src="i18n.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

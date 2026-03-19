@@ -1,0 +1,40 @@
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# node (in case npm is added later)
+node_modules/
+npm-debug.log*
+
+# chrome extension private key (NEVER commit)
+*.pem
+
+# build artifacts
+*.crx
+vibe_reader.zip
+VibeReader-*.zip
+web-ext-artifacts/
+dist/
+build/
+
+# logs
+*.log
+
+# secrets (should never be committed)
+.env
+.env.*
+*.key
+credentials.json

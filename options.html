@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VibeReader Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+  <style>
+    :root {
+      --bg:     #FAFAF9;
+      --bg-2:   #F5F5F4;
+      --card:   #FFFFFF;
+      --border: #E7E5E4;
+      --tx:     #1C1917;
+      --tx-2:   #57534E;
+      --tx-3:   #A8A29E;
+      --tx-4:   #D6D3D1;
+      --accent: #292524;
+      --blue:   #2563EB;
+      --red:    #B91C1C;
+      --green:  #4D7C0F;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(28,25,23,0.06), 0 1px 2px rgba(28,25,23,0.04);
+      --font:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --mono:   'SF Mono', Menlo, Consolas, monospace;
+      /* legacy compat */
+      --fl-paper: var(--bg); --fl-100: var(--bg-2); --fl-150: #EEECEB;
+      --fl-200: var(--border); --fl-300: #D6D3D1; --fl-green: var(--green);
+      --fl-blue: var(--blue); --fl-red: var(--red); --fl-black: var(--tx);
+      --fl-700: #44403C; --fl-800: #292524;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--tx);
+      overflow-y: auto;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── page shell ──────────────────────── */
+    .page-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      background: rgba(250,250,249,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .page-title span { color: var(--tx-3); font-weight: 400; font-size: 12px; margin-left: 6px; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .lang-select {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-family: var(--font);
+      font-size: 11px;
+      color: var(--tx-2);
+      cursor: pointer;
+      outline: none;
+    }
+    .lang-select:focus { border-color: var(--tx-3); }
+
+    .content {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 20px 24px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── card ─────────────────────────────── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 16px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .card-dot-green { background: var(--green); }
+    .card-dot-blue  { background: var(--blue); }
+    .card-dot-purple { background: #7C3AED; }
+    .card-dot-orange { background: #C2410C; }
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--tx);
+      flex: 1;
+    }
+    .card-badge {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: var(--bg-2);
+      color: var(--tx-3);
+    }
+    .card-body { padding: 18px 20px; }
+    .card-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-2);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* ── featured toggle ──────────────────── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .toggle-info { flex: 1; }
+    .toggle-title { font-size: 13px; font-weight: 600; color: var(--tx); margin-bottom: 2px; }
+    .toggle-desc { font-size: 11px; color: var(--tx-3); line-height: 1.5; }
+    .switch-label { display: flex; align-items: center; cursor: pointer; user-select: none; }
+    .switch-label input { display: none; }
+    .slider-toggle {
+      width: 36px; height: 20px;
+      background: var(--tx-4);
+      border-radius: 10px;
+      position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .slider-toggle::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      top: 2px; left: 2px;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .switch-label input:checked + .slider-toggle { background: var(--green); }
+    .switch-label input:checked + .slider-toggle::after { transform: translateX(16px); }
+
+    /* ── form elements ────────────────────── */
+    .field { margin-bottom: 12px; }
+    .field:last-child { margin-bottom: 0; }
+    .field-label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 500;
+      color: var(--tx-2);
+      font-size: 11px;
+      letter-spacing: 0.02em;
+    }
+    /* keep generic label for JS compat */
+    label { display: block; margin-bottom: 4px; font-weight: 500; color: var(--tx-2); font-size: 11px; letter-spacing: 0.02em; }
+
+    input[type="text"], input[type="password"], select {
+      width: 100%;
+      padding: 8px 11px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--tx);
+      font-family: var(--font);
+      font-size: 12px;
+      transition: border-color 0.15s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--tx-3);
+      box-shadow: 0 0 0 2px rgba(168,162,158,0.15);
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 10px 11px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      resize: vertical;
+      font-family: var(--mono);
+      font-size: 11px;
+      background: var(--bg);
+      color: var(--tx);
+      line-height: 1.6;
+    }
+    .hint { color: var(--tx-3); font-size: 10px; margin-top: 3px; margin-bottom: 0; line-height: 1.5; }
+
+    /* ── buttons ──────────────────────────── */
+    button {
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 500;
+      transition: opacity 0.12s, transform 0.1s;
+    }
+    button:hover { opacity: 0.85; }
+    button:active { transform: scale(0.97); }
+    button.secondary {
+      background: var(--card);
+      color: var(--tx-2);
+      border: 1px solid var(--border);
+    }
+    button.secondary:hover { border-color: var(--tx-3); color: var(--tx); }
+    button.danger { background: var(--red); }
+    .btn-full { width: 100%; }
+    .btn-row { display: flex; gap: 8px; margin-top: 8px; }
+    .status { margin-top: 6px; color: var(--green); text-align: center; display: none; font-size: 10px; }
+
+    /* ── template list ────────────────────── */
+    .tpl-list {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      max-height: 180px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+    .template-item {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 11px;
+      transition: background 0.1s;
+    }
+    .template-item:last-child { border-bottom: none; }
+    .template-item:hover { background: var(--bg-2); }
+    .template-item.active { background: #EFF6FF; font-weight: 600; }
+
+    /* ── two column ───────────────────────── */
+    .two-col { display: flex; gap: 16px; }
+    .two-col > :first-child { flex: 2; min-width: 0; }
+    .two-col > :last-child { flex: 3; min-width: 0; }
+
+    /* ── responsive ───────────────────────── */
+    @media (max-width: 540px) {
+      .two-col { flex-direction: column; }
+      .content { padding: 16px; gap: 12px; }
+      .page-header { padding: 12px 16px; }
+      .card-body { padding: 14px 16px; }
+    }
+
+    /* ── scrollbar ────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--tx-4); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--tx-3); }
+  </style>
+</head>
+<body>
+
+  <!-- ── sticky header ──────────────────────────────── -->
+  <div class="page-header">
+    <div class="page-title">VibeReader <span>settings</span></div>
+    <div class="header-right">
+      <select id="lang" class="lang-select">
+        <option value="en">EN</option>
+        <option value="ja">JA</option>
+        <option value="zh">ZH</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── auto summary ─────────────────────────────── -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-dot card-dot-green"></span>
+        <span class="card-title" id="lbl-autoSummary">Auto Summary</span>
+      </div>
+      <div class="card-body">
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title" id="lbl-enableAutoSum">Enable Auto Summary</div>
+            <div class="toggle-desc" id="autoSumHintText">Summarize every new page automatically.</div>
+          </div>
+          <label class="switch-label">
+            <input type="checkbox" id="autoSumEnabled">
+            <span class="slider-toggle"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AI provider ──────────────────────────────── -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-dot card-dot-blue"></span>
+        <span class="card-title" id="lbl-aiProvider">AI Provider</span>
+        <span class="card-badge">18 providers</span>
+      </div>
+      <div class="card-body">
+        <p class="hint" id="localFirstHint" style="margin-bottom: 12px; font-size: 11px;">
+          Local-first: Ollama keeps data on your machine. Cloud providers send content to external APIs.
+        </p>
+
+        <div class="field">
+          <label for="provider">Provider</label>
+          <select id="provider">
+            <optgroup label="Local">
+              <option value="ollama">Ollama</option>
+              <option value="lmstudio">LM Studio</option>
+            </optgroup>
+            <optgroup label="China Cloud">
+              <option value="deepseek">DeepSeek</option>
+              <option value="siliconflow">SiliconFlow</option>
+              <option value="moonshot">Moonshot / Kimi</option>
+              <option value="zhipu">Zhipu AI</option>
+              <option value="dashscope">Alibaba Tongyi</option>
+              <option value="doubao">Doubao / Volcengine</option>
+            </optgroup>
+            <optgroup label="International">
+              <option value="openai">OpenAI</option>
+              <option value="anthropic">Anthropic Claude</option>
+              <option value="gemini">Google Gemini</option>
+              <option value="groq">Groq</option>
+              <option value="mistral">Mistral AI</option>
+              <option value="xai">xAI Grok</option>
+            </optgroup>
+            <optgroup label="Router">
+              <option value="openrouter">OpenRouter</option>
+              <option value="together">Together AI</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option value="custom">Custom Endpoint</option>
+            </optgroup>
+          </select>
+          <p class="hint" id="providerHint"></p>
+        </div>
+
+        <div class="field">
+          <label for="baseUrl">Base URL</label>
+          <input type="text" id="baseUrl" placeholder="http://localhost:11434/v1">
+          <p class="hint" id="baseUrlHint"></p>
+        </div>
+
+        <div class="field" id="apiKeyGroup">
+          <label for="apiKey">API Key</label>
+          <input type="password" id="apiKey" placeholder="sk-...">
+          <p class="hint" id="apiKeyHint"></p>
+        </div>
+
+        <div class="field" id="apiFormatGroup" style="display:none;">
+          <label for="apiFormat">API Format</label>
+          <select id="apiFormat">
+            <option value="openai">OpenAI (/chat/completions)</option>
+            <option value="anthropic">Anthropic (/messages)</option>
+            <option value="responses">Responses (/responses)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="modelSelect">Model</label>
+          <select id="modelSelect">
+            <option value="__custom__">-- Custom --</option>
+          </select>
+          <input type="text" id="modelCustom" placeholder="model name" style="display:none; margin-top: 5px;">
+          <p class="hint" id="modelHint"></p>
+        </div>
+
+        <div class="field" id="reasoningGroup" style="display:none;">
+          <label for="reasoningEffort">Reasoning</label>
+          <select id="reasoningEffort">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high" selected>High</option>
+          </select>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button id="testConnection" class="secondary" style="flex:1;">Test Connection</button>
+        <button id="save" style="flex:1;">Save</button>
+      </div>
+      <div id="testStatus" class="status" style="padding: 0 20px 10px;"></div>
+      <div id="status" class="status" style="padding: 0 20px 10px;"></div>
+    </div>
+
+    <!-- ── prompt templates ──────────────────────────── -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-dot card-dot-purple"></span>
+        <span class="card-title">Prompt Templates</span>
+        <span class="card-badge">15 built-in</span>
+      </div>
+      <div class="card-body">
+        <div class="two-col">
+          <div>
+            <label>Templates</label>
+            <div class="tpl-list" id="templateList"></div>
+            <button id="newTemplateBtn" class="secondary btn-full">+ New</button>
+          </div>
+          <div>
+            <div class="field">
+              <label for="templateName">Name</label>
+              <input type="text" id="templateName" placeholder="e.g., Code Review">
+            </div>
+            <div class="field">
+              <label for="templateContent">Content</label>
+              <textarea id="templateContent" placeholder="Enter prompt..." style="height:130px;"></textarea>
+            </div>
+            <div class="btn-row">
+              <button id="saveTemplateBtn" style="flex:1;">Save</button>
+              <button id="deleteTemplateBtn" class="danger">Delete</button>
+            </div>
+            <div id="templateStatus" class="status"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── system prompt ─────────────────────────────── -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-dot card-dot-orange"></span>
+        <span class="card-title">System Prompt</span>
+      </div>
+      <div class="card-body">
+        <p class="hint" style="margin-bottom: 10px;">Prepended to every request. Placeholders auto-fill at runtime.</p>
+        <textarea id="systemPrompt" style="height: 240px;"></textarea>
+      </div>
+      <div class="card-footer">
+        <button id="saveSystemPromptBtn" style="flex:1;">Save</button>
+        <button id="resetSystemPromptBtn" class="secondary">Reset</button>
+      </div>
+      <div id="systemPromptStatus" class="status" style="padding: 0 20px 8px;"></div>
+    </div>
+
+  </div>
+
+  <script src="api-utils.js"></script>
+  <script src="i18n.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

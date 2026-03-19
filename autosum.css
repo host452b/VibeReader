@@ -1,0 +1,245 @@
+/* ============================================================
+   VIBEREADER auto-summary sidebar
+   editorial minimal · left-side panel
+   ============================================================ */
+
+@keyframes autosum-fade-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes autosum-content-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes autosum-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes autosum-flash-once {
+  0%   { opacity: 0.4; }
+  40%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+#chrome-autosum-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 380px;
+  height: 100vh;
+  background: #FAFAF9;
+  border-right: 1px solid #E7E5E4;
+  box-shadow: 2px 0 12px rgba(28,25,23,0.04);
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  z-index: 2147483647;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.25s ease;
+  overflow: hidden;
+  color: #1C1917;
+  -webkit-font-smoothing: antialiased;
+}
+
+#chrome-autosum-sidebar.collapsed {
+  width: 24px;
+  cursor: pointer;
+}
+
+#chrome-autosum-sidebar.collapsed .autosum-header-title,
+#chrome-autosum-sidebar.collapsed .autosum-content,
+#chrome-autosum-sidebar.collapsed .autosum-footer {
+  display: none;
+}
+
+.autosum-bar-label {
+  display: none;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  color: #A8A29E;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 12px 0;
+  cursor: pointer;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  transition: color 0.15s;
+  position: relative;
+  z-index: 2;
+  text-transform: uppercase;
+}
+
+#chrome-autosum-sidebar.collapsed .autosum-bar-label {
+  display: flex;
+}
+
+#chrome-autosum-sidebar.collapsed:hover .autosum-bar-label {
+  color: #1C1917;
+}
+
+#chrome-autosum-sidebar.flash-once.collapsed .autosum-bar-label {
+  color: #0E7490;
+  animation: autosum-flash-once 1s ease-out 1 forwards;
+}
+
+#chrome-autosum-sidebar.unread.collapsed .autosum-bar-label {
+  color: #0E7490;
+}
+
+.autosum-header {
+  background: none;
+  border-bottom: 1px solid #E7E5E4;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  animation: autosum-fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.autosum-toggle-btn {
+  background: none;
+  border: 1px solid #E7E5E4;
+  color: #57534E;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.12s;
+}
+
+.autosum-toggle-btn:hover {
+  color: #1C1917;
+  border-color: #A8A29E;
+}
+
+.autosum-toggle-btn:active {
+  transform: scale(0.9);
+}
+
+.autosum-header-title {
+  color: #1C1917;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.autosum-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: none;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.autosum-content::-webkit-scrollbar { width: 4px; }
+.autosum-content::-webkit-scrollbar-track { background: transparent; }
+.autosum-content::-webkit-scrollbar-thumb { background: #D6D3D1; border-radius: 2px; }
+.autosum-content::-webkit-scrollbar-thumb:hover { background: #A8A29E; }
+
+.autosum-status {
+  color: #A8A29E;
+  font-size: 13px;
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.autosum-summary {
+  color: #1C1917;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+  animation: autosum-content-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.autosum-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 10px;
+  gap: 14px;
+}
+
+.autosum-loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #E7E5E4;
+  border-top-color: #1C1917;
+  border-radius: 50%;
+  animation: autosum-spin 0.7s linear infinite;
+}
+
+.autosum-loading-text {
+  color: #A8A29E;
+  font-size: 12px;
+}
+
+.autosum-error {
+  color: #B91C1C;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  padding: 24px 12px;
+  animation: autosum-content-in 0.25s ease both;
+}
+
+.autosum-footer {
+  padding: 10px 16px;
+  border-top: 1px solid #E7E5E4;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: autosum-fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.autosum-retry-btn {
+  background: none;
+  border: 1px solid #E7E5E4;
+  color: #57534E;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 20px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 0.12s;
+}
+
+.autosum-retry-btn:hover {
+  color: #1C1917;
+  border-color: #A8A29E;
+}
+
+.autosum-retry-btn:active {
+  transform: scale(0.96);
+}
+
+.autosum-retry-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.autosum-retry-btn:disabled:hover {
+  color: #57534E;
+  border-color: #E7E5E4;
+}
