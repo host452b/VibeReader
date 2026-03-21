@@ -327,7 +327,6 @@ document.addEventListener('DOMContentLoaded', function() {
       provider: API_DEFAULTS.provider,
       apiFormat: API_DEFAULTS.apiFormat,
       baseUrl: API_DEFAULTS.baseUrl,
-      apiKey: API_DEFAULTS.apiKey,
       model: API_DEFAULTS.model,
       reasoningEffort: API_DEFAULTS.reasoningEffort,
       selectedTemplate: '',
@@ -335,25 +334,29 @@ document.addEventListener('DOMContentLoaded', function() {
       systemPrompt: ''
     },
     function(items) {
-      config = items;
+      // load API key from local storage (never synced to Google account)
+      chrome.storage.local.get({ apiKey: API_DEFAULTS.apiKey }, function(localItems) {
+        items.apiKey = localItems.apiKey;
+        config = items;
 
-      // apply language before rendering any text
-      currentLang = items.lang || I18N_DEFAULT;
-      DEFAULT_TEMPLATES = getDefaultTemplates();
-      applyLanguage(currentLang);
+        // apply language before rendering any text
+        currentLang = items.lang || I18N_DEFAULT;
+        DEFAULT_TEMPLATES = getDefaultTemplates();
+        applyLanguage(currentLang);
 
-      // load templates
-      availableTemplates = items.promptTemplates || DEFAULT_TEMPLATES;
-      populateTemplateDropdown(availableTemplates, items.selectedTemplate);
+        // load templates
+        availableTemplates = items.promptTemplates || DEFAULT_TEMPLATES;
+        populateTemplateDropdown(availableTemplates, items.selectedTemplate);
 
-      var loadPreset = API_PROVIDERS[config.provider];
-      var needsKey = loadPreset && loadPreset.requiresKey && !config.apiKey;
-      if (!config.baseUrl || needsKey) {
-        appendSystemMessage(t(currentLang, 'configureApi'));
-      } else {
-        // try to fetch page content immediately when popup opens
-        fetchPageContent();
-      }
+        var loadPreset = API_PROVIDERS[config.provider];
+        var needsKey = loadPreset && loadPreset.requiresKey && !config.apiKey;
+        if (!config.baseUrl || needsKey) {
+          appendSystemMessage(t(currentLang, 'configureApi'));
+        } else {
+          // try to fetch page content immediately when popup opens
+          fetchPageContent();
+        }
+      });
     }
   );
 
@@ -471,6 +474,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    // only accept messages from our own extension
+    if (sender.id !== chrome.runtime.id) return;
     if (request.action === 'tabPickerResult' && request.tabIds) {
       if (pickerWindowId) {
         chrome.windows.remove(pickerWindowId);
@@ -1062,6 +1067,77 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // --- cloud data consent dialog ---
+  function isCloudProvider(providerKey) {
+    var preset = API_PROVIDERS[providerKey];
+    return preset && preset.requiresKey;
+  }
+
+  function showCloudConsent(providerLabel) {
+    return new Promise(function(resolve) {
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
+
+      var dialog = document.createElement('div');
+      dialog.style.cssText = 'background:#fff;border-radius:12px;padding:24px;max-width:340px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.2);font-family:var(--font);';
+
+      var title = document.createElement('div');
+      title.style.cssText = 'font-size:15px;font-weight:700;margin-bottom:12px;';
+      title.textContent = t(currentLang, 'cloudConsentTitle');
+      dialog.appendChild(title);
+
+      var msg = document.createElement('div');
+      msg.style.cssText = 'font-size:13px;color:#57534E;margin-bottom:16px;line-height:1.6;';
+      msg.textContent = t(currentLang, 'cloudConsentMessage').replace('{provider}', providerLabel);
+      dialog.appendChild(msg);
+
+      var checkLabel = document.createElement('label');
+      checkLabel.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:12px;color:#57534E;margin-bottom:16px;cursor:pointer;';
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      var checkText = document.createTextNode(t(currentLang, 'cloudConsentRemember'));
+      checkLabel.appendChild(checkbox);
+      checkLabel.appendChild(checkText);
+      dialog.appendChild(checkLabel);
+
+      var btnRow = document.createElement('div');
+      btnRow.style.cssText = 'display:flex;gap:8px;justify-content:flex-end;';
+
+      var cancelBtn2 = document.createElement('button');
+      cancelBtn2.style.cssText = 'padding:6px 16px;border:1px solid #E7E5E4;border-radius:6px;background:#fff;cursor:pointer;font-size:12px;';
+      cancelBtn2.textContent = t(currentLang, 'cloudConsentCancel');
+      cancelBtn2.onclick = function() { overlay.remove(); resolve(false); };
+      btnRow.appendChild(cancelBtn2);
+
+      var okBtn = document.createElement('button');
+      okBtn.style.cssText = 'padding:6px 16px;border:none;border-radius:6px;background:#1C1917;color:#fff;cursor:pointer;font-size:12px;';
+      okBtn.textContent = t(currentLang, 'cloudConsentOk');
+      okBtn.onclick = function() {
+        if (checkbox.checked) {
+          chrome.storage.local.set({ cloudConsentGiven: true });
+        }
+        overlay.remove();
+        resolve(true);
+      };
+      btnRow.appendChild(okBtn);
+
+      dialog.appendChild(btnRow);
+      overlay.appendChild(dialog);
+      document.body.appendChild(overlay);
+    });
+  }
+
+  async function checkCloudConsent() {
+    if (!isCloudProvider(config.provider)) return true;
+    var data = await new Promise(function(resolve) {
+      chrome.storage.local.get({ cloudConsentGiven: false }, resolve);
+    });
+    if (data.cloudConsentGiven) return true;
+    var providerPreset = API_PROVIDERS[config.provider];
+    var label = providerPreset ? providerPreset.label : config.provider;
+    return showCloudConsent(label);
+  }
+
   function sendMessage() {
     const text = userInput.value.trim();
     if (!text) {
@@ -1078,6 +1154,17 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
+    // cloud consent check — show dialog if first time using cloud provider
+    checkCloudConsent().then(function(consented) {
+      if (!consented) {
+        appendSystemMessage(t(currentLang, 'cloudConsentCancel'));
+        return;
+      }
+      doSendMessage(text);
+    });
+  }
+
+  function doSendMessage(text) {
     const loadingId = appendSystemMessage(t(currentLang, 'stage1'));
     requestTimer.start(loadingId);
     toggleStopButton(true);
@@ -1088,7 +1175,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // merge with last bot response if available
     if (lastBotResponse) {
-      finalPrompt = "AI上一轮回复:\n" + lastBotResponse + "\n\n" + text;
+      finalPrompt = t(currentLang, 'aiPreviousReply') + "\n" + lastBotResponse + "\n\n" + text;
     }
 
     const template = availableTemplates.find(t => t.id === selectedTemplateId);

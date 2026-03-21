@@ -91,7 +91,17 @@ var I18N_UI = {
     tabSelected:     'selected',
     tabLoadSelected: 'Load Selected',
     tabPages:        'pages',
-    tabLoaded:       'Loaded {n}/{total} pages ({kb} KB)'
+    tabLoaded:       'Loaded {n}/{total} pages ({kb} KB)',
+    aiPreviousReply: 'AI previous reply:',
+    // privacy & consent
+    cloudConsentTitle:   'Data Transmission Notice',
+    cloudConsentMessage: 'Page content will be sent to {provider} for AI analysis. Continue?',
+    cloudConsentOk:      'Allow',
+    cloudConsentCancel:  'Cancel',
+    cloudConsentRemember:'Don\'t ask again',
+    apiKeyLocalHint:     'Your API key is stored locally on this device only — never synced to cloud.',
+    privacyPolicyLink:   'Privacy Policy',
+    dataWarningCloud:    'Cloud provider: page content will be sent to external API.'
   },
 
   ja: {
@@ -168,7 +178,16 @@ var I18N_UI = {
     tabSelected:     '選択中',
     tabLoadSelected: '選択を読み込む',
     tabPages:        'ページ',
-    tabLoaded:       '{n}/{total} ページを読み込みました ({kb} KB)'
+    tabLoaded:       '{n}/{total} ページを読み込みました ({kb} KB)',
+    aiPreviousReply: 'AIの前回の回答:',
+    cloudConsentTitle:   'データ送信のお知らせ',
+    cloudConsentMessage: 'ページコンテンツがAI分析のため {provider} に送信されます。続行しますか？',
+    cloudConsentOk:      '許可',
+    cloudConsentCancel:  'キャンセル',
+    cloudConsentRemember:'今後表示しない',
+    apiKeyLocalHint:     'APIキーはこのデバイスにのみ保存され、クラウドには同期されません。',
+    privacyPolicyLink:   'プライバシーポリシー',
+    dataWarningCloud:    'クラウドプロバイダ: ページコンテンツが外部APIに送信されます。'
   },
 
   zh: {
@@ -245,7 +264,16 @@ var I18N_UI = {
     tabSelected:     '已选',
     tabLoadSelected: '加载选中',
     tabPages:        '个页面',
-    tabLoaded:       '已加载 {n}/{total} 个页面 ({kb} KB)'
+    tabLoaded:       '已加载 {n}/{total} 个页面 ({kb} KB)',
+    aiPreviousReply: 'AI上一轮回复:',
+    cloudConsentTitle:   '数据传输提示',
+    cloudConsentMessage: '页面内容将发送至 {provider} 进行 AI 分析。是否继续？',
+    cloudConsentOk:      '允许',
+    cloudConsentCancel:  '取消',
+    cloudConsentRemember:'不再提示',
+    apiKeyLocalHint:     'API 密钥仅存储在本地设备，不会同步到云端。',
+    privacyPolicyLink:   '隐私政策',
+    dataWarningCloud:    '云端提供商: 页面内容将发送至外部 API。'
   }
 };
 

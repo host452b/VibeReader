@@ -23,6 +23,9 @@ function applyOptionsLanguage(lang) {
   setText('autoSumHintText', t(lang, 'autoSumHint'));
   setText('lbl-aiProvider', t(lang, 'aiProvider'));
   setHint('localFirstHint', t(lang, 'localFirstHint'));
+  setHint('apiKeyLocalHint', t(lang, 'apiKeyLocalHint'));
+  var privacyLink = document.getElementById('privacyLink');
+  if (privacyLink) privacyLink.textContent = t(lang, 'privacyPolicyLink');
 }
 
 function setText(id, text) {
@@ -238,12 +241,14 @@ function saveOptions() {
     apiFormat = preset.apiFormat;
   }
 
+  // save API key to local storage (never synced to Google account)
+  chrome.storage.local.set({ apiKey: apiKey });
+  // save non-sensitive settings to sync storage
   chrome.storage.sync.set(
     {
       provider: provider,
       apiFormat: apiFormat,
       baseUrl: baseUrl,
-      apiKey: apiKey,
       model: model,
       reasoningEffort: reasoningEffort
     },
@@ -261,7 +266,6 @@ function restoreOptions() {
       provider: null,
       apiFormat: null,
       baseUrl: null,
-      apiKey: '',
       model: null,
       reasoningEffort: 'high',
       // legacy fields for migration
@@ -273,77 +277,96 @@ function restoreOptions() {
       systemPrompt: null
     },
     function(items) {
-      // --- apply language ---
-      currentLang = items.lang || I18N_DEFAULT;
-      document.getElementById('lang').value = currentLang;
-      applyOptionsLanguage(currentLang);
-
-      // --- migrate from old format if needed ---
-      var provider = items.provider;
-      var apiFormat = items.apiFormat;
-      var baseUrl = items.baseUrl;
-      var model = items.model;
-
-      if (!provider && items.apiType) {
-        // old settings detected: migrate
-        if (items.apiType === 'responses') {
-          provider = 'custom';
-          apiFormat = 'responses';
+      // load API key from local storage (never synced to Google account)
+      chrome.storage.local.get({ apiKey: '' }, function(localItems) {
+        // migrate: if apiKey still in sync but not in local, move it
+        if (!localItems.apiKey) {
+          chrome.storage.sync.get({ apiKey: '' }, function(syncKey) {
+            if (syncKey.apiKey) {
+              chrome.storage.local.set({ apiKey: syncKey.apiKey });
+              chrome.storage.sync.remove('apiKey');
+              localItems.apiKey = syncKey.apiKey;
+            }
+            applyRestoredOptions(items, localItems.apiKey);
+          });
         } else {
-          provider = 'custom';
-          apiFormat = 'openai';
+          applyRestoredOptions(items, localItems.apiKey);
         }
-        if (!baseUrl) {
-          baseUrl = items.baseUrl || API_DEFAULTS.baseUrl;
-        }
-        if (!model) {
-          model = items.model || API_DEFAULTS.model;
-        }
-      }
-
-      // apply defaults if still null
-      if (!provider) provider = API_DEFAULTS.provider;
-      if (!apiFormat) apiFormat = API_DEFAULTS.apiFormat;
-      if (!baseUrl) baseUrl = API_DEFAULTS.baseUrl;
-      if (!model) model = API_DEFAULTS.model;
-
-      // set provider dropdown first (triggers model population)
-      document.getElementById('provider').value = provider;
-      updateProviderUI();
-
-      // override auto-filled values with saved values
-      document.getElementById('baseUrl').value = baseUrl;
-      document.getElementById('apiKey').value = items.apiKey;
-      document.getElementById('apiFormat').value = apiFormat;
-      document.getElementById('reasoningEffort').value = items.reasoningEffort;
-      document.getElementById('autoSumEnabled').checked = items.autoSumEnabled;
-
-      // set model after provider UI is populated
-      setModelUI(model);
-
-      // show/hide reasoning group based on format
-      var reasoningGroup = document.getElementById('reasoningGroup');
-      reasoningGroup.style.display = (apiFormat === 'responses') ? 'block' : 'none';
-
-      // restore system prompt (language-aware default)
-      document.getElementById('systemPrompt').value =
-        items.systemPrompt || getSystemPromptForLang(currentLang);
-
-      // restore templates (language-aware defaults)
-      templates = items.promptTemplates || getDefaults();
-      renderTemplateList();
-
-      // persist migrated settings so background/popup can read them
-      if (items.apiType && !items.provider) {
-        chrome.storage.sync.set({
-          provider: provider,
-          apiFormat: apiFormat,
-          baseUrl: baseUrl,
-          model: model
-        });
-      }
+      });
     }
   );
+}
+
+function applyRestoredOptions(items, apiKey) {
+  // --- apply language ---
+  currentLang = items.lang || I18N_DEFAULT;
+  document.getElementById('lang').value = currentLang;
+  applyOptionsLanguage(currentLang);
+
+  // --- migrate from old format if needed ---
+  var provider = items.provider;
+  var apiFormat = items.apiFormat;
+  var baseUrl = items.baseUrl;
+  var model = items.model;
+
+  if (!provider && items.apiType) {
+    // old settings detected: migrate
+    if (items.apiType === 'responses') {
+      provider = 'custom';
+      apiFormat = 'responses';
+    } else {
+      provider = 'custom';
+      apiFormat = 'openai';
+    }
+    if (!baseUrl) {
+      baseUrl = items.baseUrl || API_DEFAULTS.baseUrl;
+    }
+    if (!model) {
+      model = items.model || API_DEFAULTS.model;
+    }
+  }
+
+  // apply defaults if still null
+  if (!provider) provider = API_DEFAULTS.provider;
+  if (!apiFormat) apiFormat = API_DEFAULTS.apiFormat;
+  if (!baseUrl) baseUrl = API_DEFAULTS.baseUrl;
+  if (!model) model = API_DEFAULTS.model;
+
+  // set provider dropdown first (triggers model population)
+  document.getElementById('provider').value = provider;
+  updateProviderUI();
+
+  // override auto-filled values with saved values
+  document.getElementById('baseUrl').value = baseUrl;
+  document.getElementById('apiKey').value = apiKey;
+  document.getElementById('apiFormat').value = apiFormat;
+  document.getElementById('reasoningEffort').value = items.reasoningEffort;
+  document.getElementById('autoSumEnabled').checked = items.autoSumEnabled;
+
+  // set model after provider UI is populated
+  setModelUI(model);
+
+  // show/hide reasoning group based on format
+  var reasoningGroup = document.getElementById('reasoningGroup');
+  reasoningGroup.style.display = (apiFormat === 'responses') ? 'block' : 'none';
+
+  // restore system prompt (language-aware default)
+  document.getElementById('systemPrompt').value =
+    items.systemPrompt || getSystemPromptForLang(currentLang);
+
+  // restore templates (language-aware defaults)
+  templates = items.promptTemplates || getDefaults();
+  renderTemplateList();
+
+  // persist migrated settings so background/popup can read them
+  if (items.apiType && !items.provider) {
+    chrome.storage.sync.set({
+      provider: provider,
+      apiFormat: apiFormat,
+      baseUrl: baseUrl,
+      model: model
+    });
+  }
 }
 
 // --- test connection ---

@@ -1,0 +1,81 @@
+name: Release Chrome Extension
+
+# trigger on version tags: v1.0, v1.3.1, etc.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          echo "tag=$TAG_NAME" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Verify manifest version matches tag
+        run: |
+          MANIFEST_VER=$(jq -r '.version' manifest.json)
+          TAG_VER="${{ steps.version.outputs.version }}"
+          echo "manifest version: $MANIFEST_VER"
+          echo "tag version:      $TAG_VER"
+          if [ "$MANIFEST_VER" != "$TAG_VER" ]; then
+            echo "::warning::manifest.json version ($MANIFEST_VER) does not match tag ($TAG_VER)"
+          fi
+
+      - name: Package extension zip
+        run: |
+          zip -r VibeReader-${{ steps.version.outputs.tag }}.zip . \
+            -x '*.DS_Store' \
+            -x '*.git*' \
+            -x '.github/*' \
+            -x 'README.md' \
+            -x 'STORE_LISTING.md' \
+            -x 'build.sh'
+          echo "--- package contents ---"
+          unzip -l VibeReader-${{ steps.version.outputs.tag }}.zip
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          VER="${{ steps.version.outputs.version }}"
+          cat > release_notes.md << 'NOTES_EOF'
+          ## VibeReader $TAG
+
+          ### Installation
+          1. Download `VibeReader-$TAG.zip` below
+          2. Open `chrome://extensions/` in Chrome
+          3. Enable **Developer mode**
+          4. Click **Load unpacked** and select the extracted folder
+
+          ### What's in this release
+          - Chrome Extension manifest v3
+          - Supports Ollama, OpenAI, Claude, Gemini, SiliconFlow, and custom endpoints
+          - Auto Summary sidebar with bilingual output
+          - Binary Split Strategy for large pages
+          - Clean Flexoki Light UI
+          NOTES_EOF
+          # replace placeholders
+          sed -i "s/\$TAG/$TAG/g" release_notes.md
+          sed -i "s/\$VER/$VER/g" release_notes.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: VibeReader ${{ steps.version.outputs.tag }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+          files: VibeReader-${{ steps.version.outputs.tag }}.zip

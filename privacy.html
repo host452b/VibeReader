@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VibeReader Privacy Policy</title>
+  <style>
+    :root {
+      --bg:     #FAFAF9;
+      --card:   #FFFFFF;
+      --border: #E7E5E4;
+      --tx:     #1C1917;
+      --tx-2:   #57534E;
+      --blue:   #2563EB;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(28,25,23,0.06), 0 1px 2px rgba(28,25,23,0.04);
+      --font:   -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--tx);
+      margin: 0;
+      padding: 24px;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    .container { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .subtitle { color: var(--tx-2); font-size: 12px; margin-bottom: 24px; }
+    .lang-switch { margin-bottom: 20px; }
+    .lang-switch button {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 6px; padding: 4px 12px; font-size: 12px;
+      cursor: pointer; margin-right: 4px; font-family: var(--font);
+    }
+    .lang-switch button.active {
+      background: var(--tx); color: #fff; border-color: var(--tx);
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 20px; margin-bottom: 16px;
+    }
+    h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px 0; }
+    h3 { font-size: 14px; font-weight: 600; margin: 16px 0 8px 0; }
+    p { margin: 8px 0; }
+    ul { margin: 8px 0; padding-left: 20px; }
+    li { margin: 4px 0; }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .highlight { background: #FEF9C3; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+    th { font-weight: 600; background: var(--bg); }
+    .footer { color: var(--tx-2); font-size: 11px; margin-top: 24px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lang-switch">
+      <button class="active" onclick="switchLang('en')">English</button>
+      <button onclick="switchLang('ja')">日本語</button>
+      <button onclick="switchLang('zh')">中文</button>
+    </div>
+
+    <!-- ============ ENGLISH ============ -->
+    <div id="lang-en">
+      <h1>VibeReader Privacy Policy</h1>
+      <p class="subtitle">Last updated: 2026-03-21</p>
+
+      <div class="card">
+        <h2>1. What Data We Collect</h2>
+        <p>VibeReader processes the following data <strong>locally on your device</strong>:</p>
+        <ul>
+          <li><strong>Page content</strong> — visible text, title, URL, and metadata of web pages you choose to analyze</li>
+          <li><strong>User preferences</strong> — language, selected AI provider, model, prompt templates (stored in Chrome sync storage)</li>
+          <li><strong>API key</strong> — your AI provider credentials (stored <span class="highlight">only in local device storage</span>, never synced to cloud)</li>
+        </ul>
+        <p>We do <strong>not</strong> collect analytics, telemetry, browsing history, or any data beyond what you explicitly interact with.</p>
+      </div>
+
+      <div class="card">
+        <h2>2. How Data Is Transmitted</h2>
+        <p>When you use a <strong>cloud AI provider</strong>, page content and your prompt are sent to the provider's API endpoint via HTTPS. This only happens when you explicitly click "Send" or enable Auto Summary.</p>
+        <p><strong>Local providers</strong> (Ollama, LM Studio) process everything on your machine. No data leaves your device.</p>
+        <h3>Supported Cloud Providers</h3>
+        <table>
+          <tr><th>Provider</th><th>Data Sent To</th><th>Privacy Policy</th></tr>
+          <tr><td>OpenAI</td><td>api.openai.com</td><td><a href="https://openai.com/privacy" target="_blank">Link</a></td></tr>
+          <tr><td>Anthropic Claude</td><td>api.anthropic.com</td><td><a href="https://www.anthropic.com/privacy" target="_blank">Link</a></td></tr>
+          <tr><td>Google Gemini</td><td>generativelanguage.googleapis.com</td><td><a href="https://policies.google.com/privacy" target="_blank">Link</a></td></tr>
+          <tr><td>DeepSeek</td><td>api.deepseek.com</td><td><a href="https://www.deepseek.com/privacy" target="_blank">Link</a></td></tr>
+          <tr><td>Groq</td><td>api.groq.com</td><td><a href="https://groq.com/privacy-policy/" target="_blank">Link</a></td></tr>
+          <tr><td>Mistral AI</td><td>api.mistral.ai</td><td><a href="https://mistral.ai/terms/#privacy-policy" target="_blank">Link</a></td></tr>
+          <tr><td>xAI Grok</td><td>api.x.ai</td><td><a href="https://x.ai/legal/privacy-policy" target="_blank">Link</a></td></tr>
+          <tr><td>OpenRouter</td><td>openrouter.ai</td><td><a href="https://openrouter.ai/privacy" target="_blank">Link</a></td></tr>
+          <tr><td>Together AI</td><td>api.together.xyz</td><td><a href="https://www.together.ai/privacy" target="_blank">Link</a></td></tr>
+          <tr><td>SiliconFlow</td><td>api.siliconflow.cn</td><td><a href="https://siliconflow.cn/privacy" target="_blank">Link</a></td></tr>
+          <tr><td>Moonshot / Kimi</td><td>api.moonshot.cn</td><td><a href="https://www.moonshot.cn/privacy" target="_blank">Link</a></td></tr>
+          <tr><td>Zhipu AI</td><td>open.bigmodel.cn</td><td><a href="https://www.zhipuai.cn/privacy" target="_blank">Link</a></td></tr>
+          <tr><td>Alibaba Tongyi</td><td>dashscope.aliyuncs.com</td><td><a href="https://terms.alicdn.com/legal-agreement/terms/privacy_policy.html" target="_blank">Link</a></td></tr>
+          <tr><td>Doubao / Volcengine</td><td>ark.cn-beijing.volces.com</td><td><a href="https://www.volcengine.com/docs/legal/privacy-policy" target="_blank">Link</a></td></tr>
+          <tr><td>Custom Endpoint</td><td>User-configured URL</td><td>User's responsibility</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>3. Data Storage</h2>
+        <table>
+          <tr><th>Data</th><th>Storage Location</th><th>Synced to Cloud?</th></tr>
+          <tr><td>API Key</td><td>chrome.storage.local</td><td>No — device only</td></tr>
+          <tr><td>Preferences (language, provider, model)</td><td>chrome.storage.sync</td><td>Yes — via Chrome Sync</td></tr>
+          <tr><td>Prompt templates</td><td>chrome.storage.sync</td><td>Yes — via Chrome Sync</td></tr>
+          <tr><td>Page content</td><td>In-memory only</td><td>No — discarded on close</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>4. Your Control</h2>
+        <ul>
+          <li><strong>Choose local-only:</strong> Select Ollama or LM Studio — zero data leaves your device</li>
+          <li><strong>Review before sending:</strong> Use the RAW_TXT editor to inspect extracted content before any API call</li>
+          <li><strong>Disable Auto Summary:</strong> Turn off in Settings to prevent automatic API calls</li>
+          <li><strong>Delete all data:</strong> Uninstall the extension or clear extension data in Chrome settings</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>5. Third Parties</h2>
+        <p>VibeReader does not use analytics, advertising, or tracking services. No data is shared with any party other than your chosen AI provider.</p>
+      </div>
+
+      <div class="card">
+        <h2>6. Contact</h2>
+        <p>For questions about this policy, please open an issue on the project repository.</p>
+      </div>
+    </div>
+
+    <!-- ============ JAPANESE ============ -->
+    <div id="lang-ja" style="display:none">
+      <h1>VibeReader プライバシーポリシー</h1>
+      <p class="subtitle">最終更新日: 2026-03-21</p>
+
+      <div class="card">
+        <h2>1. 収集するデータ</h2>
+        <p>VibeReaderは以下のデータを<strong>お使いのデバイス上でローカルに</strong>処理します：</p>
+        <ul>
+          <li><strong>ページコンテンツ</strong> — 分析対象ページの表示テキスト、タイトル、URL、メタデータ</li>
+          <li><strong>ユーザー設定</strong> — 言語、AIプロバイダ、モデル、プロンプトテンプレート（Chrome同期ストレージに保存）</li>
+          <li><strong>APIキー</strong> — AIプロバイダの認証情報（<span class="highlight">ローカルデバイスストレージのみ</span>に保存、クラウドには同期されません）</li>
+        </ul>
+        <p>アナリティクス、テレメトリ、閲覧履歴、その他ユーザーが明示的に操作する以外のデータは<strong>一切収集しません</strong>。</p>
+      </div>
+
+      <div class="card">
+        <h2>2. データの送信</h2>
+        <p><strong>クラウドAIプロバイダ</strong>を使用する場合、ページコンテンツとプロンプトがHTTPS経由でプロバイダのAPIエンドポイントに送信されます。これは「送信」ボタンをクリックするか、自動要約を有効にした場合にのみ発生します。</p>
+        <p><strong>ローカルプロバイダ</strong>（Ollama、LM Studio）はすべてお使いのマシン上で処理します。データはデバイスの外に出ません。</p>
+        <h3>対応クラウドプロバイダ</h3>
+        <p>英語版の表をご参照ください。各プロバイダのプライバシーポリシーへのリンクが記載されています。</p>
+      </div>
+
+      <div class="card">
+        <h2>3. データストレージ</h2>
+        <table>
+          <tr><th>データ</th><th>保存先</th><th>クラウド同期</th></tr>
+          <tr><td>APIキー</td><td>chrome.storage.local</td><td>なし — デバイスのみ</td></tr>
+          <tr><td>設定（言語、プロバイダ、モデル）</td><td>chrome.storage.sync</td><td>あり — Chrome同期経由</td></tr>
+          <tr><td>プロンプトテンプレート</td><td>chrome.storage.sync</td><td>あり — Chrome同期経由</td></tr>
+          <tr><td>ページコンテンツ</td><td>メモリのみ</td><td>なし — 閉じると破棄</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>4. ユーザーの権利</h2>
+        <ul>
+          <li><strong>ローカルのみ:</strong> OllamaまたはLM Studioを選択 — データはデバイス外に出ません</li>
+          <li><strong>送信前の確認:</strong> RAW_TXTエディタで抽出内容をAPI送信前に確認できます</li>
+          <li><strong>自動要約の無効化:</strong> 設定でオフにすると自動API呼び出しを停止します</li>
+          <li><strong>全データの削除:</strong> 拡張機能をアンインストールするか、Chromeの設定で拡張機能データをクリア</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>5. 第三者</h2>
+        <p>VibeReaderはアナリティクス、広告、トラッキングサービスを使用しません。選択したAIプロバイダ以外の第三者とデータを共有することはありません。</p>
+      </div>
+
+      <div class="card">
+        <h2>6. お問い合わせ</h2>
+        <p>このポリシーに関するご質問は、プロジェクトリポジトリでissueを作成してください。</p>
+      </div>
+    </div>
+
+    <!-- ============ CHINESE ============ -->
+    <div id="lang-zh" style="display:none">
+      <h1>VibeReader 隐私政策</h1>
+      <p class="subtitle">最后更新: 2026-03-21</p>
+
+      <div class="card">
+        <h2>1. 我们收集的数据</h2>
+        <p>VibeReader 在<strong>您的本地设备上</strong>处理以下数据：</p>
+        <ul>
+          <li><strong>页面内容</strong> — 您选择分析的网页的可见文本、标题、URL 和元数据</li>
+          <li><strong>用户偏好</strong> — 语言、AI 提供商、模型、提示模板（存储在 Chrome 同步存储中）</li>
+          <li><strong>API 密钥</strong> — 您的 AI 提供商凭据（<span class="highlight">仅存储在本地设备</span>，绝不同步到云端）</li>
+        </ul>
+        <p>我们<strong>不</strong>收集分析数据、遥测数据、浏览历史或任何您未明确交互的数据。</p>
+      </div>
+
+      <div class="card">
+        <h2>2. 数据如何传输</h2>
+        <p>当您使用<strong>云端 AI 提供商</strong>时，页面内容和提示会通过 HTTPS 发送到提供商的 API 端点。这仅在您点击"发送"或启用自动摘要时发生。</p>
+        <p><strong>本地提供商</strong>（Ollama、LM Studio）在您的机器上处理所有内容，数据不会离开您的设备。</p>
+        <h3>支持的云端提供商</h3>
+        <p>请参阅英文版的完整列表，其中包含各提供商隐私政策的链接。</p>
+      </div>
+
+      <div class="card">
+        <h2>3. 数据存储</h2>
+        <table>
+          <tr><th>数据</th><th>存储位置</th><th>是否同步到云端</th></tr>
+          <tr><td>API 密钥</td><td>chrome.storage.local</td><td>否 — 仅限本机</td></tr>
+          <tr><td>偏好设置（语言、提供商、模型）</td><td>chrome.storage.sync</td><td>是 — 通过 Chrome 同步</td></tr>
+          <tr><td>提示模板</td><td>chrome.storage.sync</td><td>是 — 通过 Chrome 同步</td></tr>
+          <tr><td>页面内容</td><td>仅内存</td><td>否 — 关闭即销毁</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>4. 您的控制权</h2>
+        <ul>
+          <li><strong>选择纯本地模式:</strong> 选择 Ollama 或 LM Studio — 数据完全不离开设备</li>
+          <li><strong>发送前审查:</strong> 使用 RAW_TXT 编辑器在 API 调用前检查提取的内容</li>
+          <li><strong>禁用自动摘要:</strong> 在设置中关闭以防止自动 API 调用</li>
+          <li><strong>删除所有数据:</strong> 卸载扩展或在 Chrome 设置中清除扩展数据</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>5. 第三方</h2>
+        <p>VibeReader 不使用任何分析、广告或追踪服务。除您选择的 AI 提供商外，不与任何第三方共享数据。</p>
+      </div>
+
+      <div class="card">
+        <h2>6. 联系方式</h2>
+        <p>如对本政策有疑问，请在项目仓库中创建 issue。</p>
+      </div>
+    </div>
+
+    <div class="footer">VibeReader &mdash; AI Page Analyst &amp; Summarizer</div>
+  </div>
+
+  <script>
+    function switchLang(lang) {
+      document.getElementById('lang-en').style.display = (lang === 'en') ? '' : 'none';
+      document.getElementById('lang-ja').style.display = (lang === 'ja') ? '' : 'none';
+      document.getElementById('lang-zh').style.display = (lang === 'zh') ? '' : 'none';
+      var btns = document.querySelectorAll('.lang-switch button');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.remove('active');
+      }
+      event.target.classList.add('active');
+    }
+    // auto-detect language from Chrome storage
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.sync.get({ lang: 'en' }, function(items) {
+        switchLang(items.lang || 'en');
+        var btns = document.querySelectorAll('.lang-switch button');
+        btns.forEach(function(b) { b.classList.remove('active'); });
+        var idx = { en: 0, ja: 1, zh: 2 }[items.lang] || 0;
+        if (btns[idx]) btns[idx].classList.add('active');
+      });
+    }
+  </script>
+</body>
+</html>

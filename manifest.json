@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "VibeReader — AI Page Analyst & Summarizer",
-  "version": "1.4",
+  "version": "1.5",
   "description": "Read any webpage with AI. Local-first via Ollama, or cloud (OpenAI, Claude, Gemini). Auto summaries, smart chunking, templates.",
   "permissions": [
     "storage",
@@ -37,9 +37,12 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
   "web_accessible_resources": [
     {
-      "resources": ["autosum.css"],
+      "resources": ["autosum.css", "privacy.html"],
       "matches": ["<all_urls>"]
     }
   ]
