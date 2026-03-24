@@ -31,7 +31,7 @@
   height: 100vh;
   background: var(--bg);
   border-right: 1px solid var(--border);
-  box-shadow: 2px 0 12px rgba(80,72,56,0.06);
+  box-shadow: 2px 0 12px rgba(16,15,15,0.05);
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   z-index: 2147483647;
   display: flex;
