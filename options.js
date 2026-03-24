@@ -107,13 +107,13 @@ function updateProviderUI() {
     apiKeyHint.textContent = 'not required for local Ollama.';
   }
 
-  // show API format selector only for custom
-  if (providerKey === 'custom') {
+  // show API format selector for custom and azure
+  if (providerKey === 'custom' || providerKey === 'azure_openai') {
     apiFormatGroup.style.display = 'block';
   } else {
     apiFormatGroup.style.display = 'none';
-    document.getElementById('apiFormat').value = preset.apiFormat;
   }
+  document.getElementById('apiFormat').value = preset.apiFormat;
 
   // show reasoning effort only for responses API format
   var currentFormat = document.getElementById('apiFormat').value;
@@ -134,6 +134,8 @@ function updateProviderUI() {
     formatLabel = '/messages';
   } else if (currentFormat === 'responses') {
     formatLabel = '/responses';
+  } else if (currentFormat === 'azure-openai') {
+    formatLabel = '/chat/completions?api-version=2024-10-21';
   }
   baseUrlHint.textContent = 'endpoint base path. "' + formatLabel + '" is appended automatically.';
 

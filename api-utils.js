@@ -30,6 +30,51 @@ var API_PROVIDERS = {
     defaultModel: '',
     hint: 'Local inference GUI. Download models inside LM Studio, then start the server.'
   },
+  jan: {
+    label: 'Jan',
+    baseUrl: 'http://localhost:1337/v1',
+    apiFormat: 'openai',
+    requiresKey: false,
+    models: [],
+    defaultModel: '',
+    hint: 'Open-source local AI. Download from jan.ai, load a model, then start the server.'
+  },
+  gpt4all: {
+    label: 'GPT4All',
+    baseUrl: 'http://localhost:4891/v1',
+    apiFormat: 'openai',
+    requiresKey: false,
+    models: [],
+    defaultModel: '',
+    hint: 'Privacy-first local AI. Download from gpt4all.io, enable API server in settings.'
+  },
+  localai: {
+    label: 'LocalAI',
+    baseUrl: 'http://localhost:8080/v1',
+    apiFormat: 'openai',
+    requiresKey: false,
+    models: [],
+    defaultModel: '',
+    hint: 'Self-hosted OpenAI-compatible server. See localai.io for setup instructions.'
+  },
+  vllm: {
+    label: 'vLLM',
+    baseUrl: 'http://localhost:8000/v1',
+    apiFormat: 'openai',
+    requiresKey: false,
+    models: [],
+    defaultModel: '',
+    hint: 'High-throughput serving engine. See docs.vllm.ai for setup instructions.'
+  },
+  textgenwebui: {
+    label: 'text-generation-webui',
+    baseUrl: 'http://localhost:5000/v1',
+    apiFormat: 'openai',
+    requiresKey: false,
+    models: [],
+    defaultModel: '',
+    hint: 'Gradio web UI for LLMs. Enable --api flag. See github.com/oobabooga/text-generation-webui'
+  },
 
   // ── china cloud ────────────────────────────────────────────
   deepseek: {
@@ -111,6 +156,92 @@ var API_PROVIDERS = {
   },
 
   // ── international cloud ────────────────────────────────────
+  cohere: {
+    label: 'Cohere',
+    baseUrl: 'https://api.cohere.com/compatibility/v1',
+    apiFormat: 'openai',
+    requiresKey: true,
+    models: [
+      'command-r-plus',
+      'command-r',
+      'command-a-03-2025'
+    ],
+    defaultModel: 'command-r',
+    hint: 'RAG-optimized models. Get your key from dashboard.cohere.com'
+  },
+  perplexity: {
+    label: 'Perplexity',
+    baseUrl: 'https://api.perplexity.ai',
+    apiFormat: 'openai',
+    requiresKey: true,
+    models: [
+      'sonar-pro',
+      'sonar',
+      'sonar-reasoning-pro',
+      'sonar-reasoning'
+    ],
+    defaultModel: 'sonar',
+    hint: 'Search-augmented AI. Get your key from perplexity.ai/settings/api'
+  },
+  ai21: {
+    label: 'AI21 Labs',
+    baseUrl: 'https://api.ai21.com/studio/v1',
+    apiFormat: 'openai',
+    requiresKey: true,
+    models: [
+      'jamba-1.5-large',
+      'jamba-1.5-mini'
+    ],
+    defaultModel: 'jamba-1.5-mini',
+    hint: 'Jamba model family. Get your key from studio.ai21.com'
+  },
+  fireworks: {
+    label: 'Fireworks AI',
+    baseUrl: 'https://api.fireworks.ai/inference/v1',
+    apiFormat: 'openai',
+    requiresKey: true,
+    models: [
+      'accounts/fireworks/models/firefunction-v2',
+      'accounts/fireworks/models/llama-v3p1-70b-instruct',
+      'accounts/fireworks/models/llama-v3p1-8b-instruct'
+    ],
+    defaultModel: 'accounts/fireworks/models/llama-v3p1-8b-instruct',
+    hint: 'Fast open-model inference. Get your key from fireworks.ai/account/api-keys'
+  },
+  cerebras: {
+    label: 'Cerebras',
+    baseUrl: 'https://api.cerebras.ai/v1',
+    apiFormat: 'openai',
+    requiresKey: true,
+    models: [
+      'llama-3.3-70b',
+      'llama-4-scout-17b-16e'
+    ],
+    defaultModel: 'llama-3.3-70b',
+    hint: 'Ultra-fast wafer-scale inference. Get your key from cloud.cerebras.ai'
+  },
+  lambda: {
+    label: 'Lambda',
+    baseUrl: 'https://api.lambdalabs.com/v1',
+    apiFormat: 'openai',
+    requiresKey: true,
+    models: [
+      'llama-3.3-70b-instruct'
+    ],
+    defaultModel: 'llama-3.3-70b-instruct',
+    hint: 'GPU cloud + inference API. Get your key from cloud.lambda.ai'
+  },
+  replicate: {
+    label: 'Replicate',
+    baseUrl: 'https://openai-proxy.replicate.com/v1',
+    apiFormat: 'openai',
+    requiresKey: true,
+    models: [
+      'meta/llama-3-70b-instruct'
+    ],
+    defaultModel: 'meta/llama-3-70b-instruct',
+    hint: 'Open-source model hosting. Get your key from replicate.com/account/api-tokens'
+  },
   openai: {
     label: 'OpenAI',
     baseUrl: 'https://api.openai.com/v1',
@@ -221,6 +352,31 @@ var API_PROVIDERS = {
     hint: 'Open-source model cloud. Get your key from api.together.xyz'
   },
 
+  // ── enterprise ────────────────────────────────────────────
+  azure_openai: {
+    label: 'Azure OpenAI',
+    baseUrl: '',
+    apiFormat: 'azure-openai',
+    requiresKey: true,
+    models: [],
+    defaultModel: '',
+    hint: 'Enter your Azure endpoint as Base URL (e.g. https://{resource}.openai.azure.com/openai/deployments/{deployment}). Get your key from portal.azure.com'
+  },
+
+  // ── NVIDIA ───────────────────────────────────────────────
+  nvidia_nim: {
+    label: 'NVIDIA NIM',
+    baseUrl: 'https://integrate.api.nvidia.com/v1',
+    apiFormat: 'openai',
+    requiresKey: true,
+    models: [
+      'meta/llama-3.1-8b-instruct',
+      'nvidia/llama-3.1-nemotron-70b-instruct'
+    ],
+    defaultModel: 'meta/llama-3.1-8b-instruct',
+    hint: 'NVIDIA hosted models. Free credits available — register at build.nvidia.com'
+  },
+
   // ── custom ─────────────────────────────────────────────────
   custom: {
     label: 'Custom Endpoint',
@@ -248,6 +404,9 @@ function constructApiUrl(cfg) {
   if (format === 'responses') {
     return base + '/responses';
   }
+  if (format === 'azure-openai') {
+    return base + '/chat/completions?api-version=2024-10-21';
+  }
   return base + '/chat/completions';
 }
 
@@ -261,6 +420,14 @@ function buildApiHeaders(cfg) {
       headers['x-api-key'] = cfg.apiKey;
     }
     headers['anthropic-version'] = '2023-06-01';
+    return headers;
+  }
+
+  // azure-openai: api-key header
+  if (format === 'azure-openai') {
+    if (cfg.apiKey) {
+      headers['api-key'] = cfg.apiKey;
+    }
     return headers;
   }
 

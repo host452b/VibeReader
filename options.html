@@ -313,7 +313,7 @@
       <div class="card-header">
         <span class="card-dot card-dot-blue"></span>
         <span class="card-title" id="lbl-aiProvider">AI Provider</span>
-        <span class="card-badge">18 providers</span>
+        <span class="card-badge">31 providers</span>
       </div>
       <div class="card-body">
         <p class="hint" id="localFirstHint" style="margin-bottom: 12px; font-size: 11px;">
@@ -326,6 +326,11 @@
             <optgroup label="Local">
               <option value="ollama">Ollama</option>
               <option value="lmstudio">LM Studio</option>
+              <option value="jan">Jan</option>
+              <option value="gpt4all">GPT4All</option>
+              <option value="localai">LocalAI</option>
+              <option value="vllm">vLLM</option>
+              <option value="textgenwebui">text-generation-webui</option>
             </optgroup>
             <optgroup label="China Cloud">
               <option value="deepseek">DeepSeek</option>
@@ -342,10 +347,23 @@
               <option value="groq">Groq</option>
               <option value="mistral">Mistral AI</option>
               <option value="xai">xAI Grok</option>
+              <option value="cohere">Cohere</option>
+              <option value="perplexity">Perplexity</option>
+              <option value="ai21">AI21 Labs</option>
+              <option value="fireworks">Fireworks AI</option>
+              <option value="cerebras">Cerebras</option>
+              <option value="lambda">Lambda</option>
+              <option value="replicate">Replicate</option>
             </optgroup>
             <optgroup label="Router">
               <option value="openrouter">OpenRouter</option>
               <option value="together">Together AI</option>
+            </optgroup>
+            <optgroup label="Enterprise">
+              <option value="azure_openai">Azure OpenAI</option>
+            </optgroup>
+            <optgroup label="NVIDIA">
+              <option value="nvidia_nim">NVIDIA NIM</option>
             </optgroup>
             <optgroup label="Other">
               <option value="custom">Custom Endpoint</option>
@@ -373,6 +391,7 @@
             <option value="openai">OpenAI (/chat/completions)</option>
             <option value="anthropic">Anthropic (/messages)</option>
             <option value="responses">Responses (/responses)</option>
+            <option value="azure-openai">Azure OpenAI (/chat/completions?api-version=...)</option>
           </select>
         </div>
 

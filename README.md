@@ -1,6 +1,6 @@
 # VibeReader — AI Page Analyst & Summarizer
 
-> **Read any webpage with AI.** Instant summaries, deep-dive analysis, smart content chunking — with 17 AI providers and EN/JA/ZH language support.
+> **Read any webpage with AI.** Instant summaries, deep-dive analysis, smart content chunking — with 31 AI providers and EN/JA/ZH language support.
 
 ---
 
@@ -33,7 +33,7 @@ Unlike generic chatbots that require you to copy-paste text, VibeReader works **
 | **Binary Split Strategy** | Automatically chunks oversized content (2→4→8→16 segments) at natural paragraph/sentence boundaries, then synthesizes a unified answer. Visual progress bar with per-chunk timing and ETA. |
 | **15 Prompt Templates** | Professional presets for tech, legal, finance, news, research, writing, product, data — users can create custom templates in Options. |
 | **Multi-Turn Context** | Each follow-up carries the previous AI response, enabling deeper conversational analysis. |
-| **3 API Formats** | OpenAI Chat Completions, Anthropic Messages, and OpenAI Responses API — auto-routed by provider. |
+| **4 API Formats** | OpenAI Chat Completions, Anthropic Messages, OpenAI Responses API, and Azure OpenAI — auto-routed by provider. |
 | **Request Timer** | Live elapsed time + ETA prediction based on rolling average of past 10 calls. |
 | **i18n (EN/JA/ZH)** | Full UI labels, templates, system prompts, and auto-summary prompts in English, Japanese, and Chinese. |
 | **HUD Status Indicator** | Cycles through STANDBY → IDLE → READY → SYS:OK → AWAIT during idle; shows LIVE with VU meter animation during API calls; DONE on completion. |
@@ -217,7 +217,7 @@ vibe_reader/
 ├── popup.css              # Side panel styles
 ├── options.html           # Settings page UI
 ├── options.js             # Settings page logic: provider config, templates
-├── api-utils.js           # Shared API layer: 17 providers, 3 formats
+├── api-utils.js           # Shared API layer: 31 providers, 4 formats
 ├── i18n.js                # i18n: UI strings, templates, prompts (EN/JA/ZH)
 ├── autosum.js             # Auto summary: sidebar injection + display
 ├── autosum.css            # Auto summary sidebar styles
