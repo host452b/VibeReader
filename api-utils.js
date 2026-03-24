@@ -448,9 +448,11 @@ function buildApiHeaders(cfg) {
 }
 
 // build request payload from messages array and settings
+// when cfg.stream is true, adds stream:true to payload
 function buildApiPayload(messages, cfg) {
   var format = cfg.apiFormat || 'openai';
   var model = cfg.model || '';
+  var useStream = !!cfg.stream;
 
   if (format === 'anthropic') {
     var systemParts = [];
@@ -468,7 +470,8 @@ function buildApiPayload(messages, cfg) {
     var payload = {
       model: model,
       max_tokens: 16384,
-      messages: userMessages
+      messages: userMessages,
+      stream: useStream
     };
     if (systemParts.length > 0) {
       payload.system = systemParts.join('\n\n');
@@ -477,21 +480,54 @@ function buildApiPayload(messages, cfg) {
   }
 
   if (format === 'responses') {
-    return {
+    var rPayload = {
       model: model,
       input: messages,
       max_output_tokens: 16384,
-      reasoning: { effort: cfg.reasoningEffort || 'high' }
+      reasoning: { effort: cfg.reasoningEffort || 'high' },
+      stream: useStream
     };
+    return rPayload;
   }
 
-  // default: openai chat completions
+  // default: openai / azure-openai chat completions
   return {
     model: model,
     messages: messages,
     max_tokens: 16384,
-    temperature: 0.7
+    temperature: 0.7,
+    stream: useStream
   };
+}
+
+// extract text delta from a single SSE chunk (streaming mode).
+// returns the text fragment or '' if the chunk has no content.
+function extractStreamDelta(data, format) {
+  if (!data) return '';
+  format = format || 'openai';
+
+  // anthropic: {type:"content_block_delta", delta:{type:"text_delta", text:"..."}}
+  if (format === 'anthropic') {
+    if (data.type === 'content_block_delta' && data.delta && data.delta.text) {
+      return data.delta.text;
+    }
+    return '';
+  }
+
+  // responses API: {type:"response.output_text.delta", delta:"..."}
+  if (format === 'responses') {
+    if (data.type === 'response.output_text.delta' && typeof data.delta === 'string') {
+      return data.delta;
+    }
+    return '';
+  }
+
+  // openai / azure-openai: {choices:[{delta:{content:"..."}}]}
+  if (data.choices && data.choices.length > 0) {
+    var delta = data.choices[0].delta;
+    if (delta && delta.content) return delta.content;
+  }
+  return '';
 }
 
 // extract text content from any supported API response format.

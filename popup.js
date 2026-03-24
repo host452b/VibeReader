@@ -1433,23 +1433,68 @@ document.addEventListener('DOMContentLoaded', function() {
     updateProgress(loadingMsgId, t(currentLang, 'stage3'));
 
     try {
-      // try the standard request first (full context)
-      const response = await retryWithBackoff(
-        () => attemptRequest(prompt, contextData, signal),
-        2,
-        signal,
-        function(attempt, delay) {
-          updateProgress(loadingMsgId,
-            '[3/4] Transient error. Retry ' + attempt + '/2 in '
-            + (delay / 1000) + 's...');
-        }
-      );
+      // prepare a streaming bot message container
+      removeLoading(loadingMsgId);
+      var streamMsgId = 'stream-' + Date.now();
+      var streamDiv = document.createElement('div');
+      streamDiv.id = streamMsgId;
+      streamDiv.classList.add('message', 'bot-message');
+      var streamContent = document.createElement('div');
+      streamContent.style.whiteSpace = 'pre-wrap';
+      streamDiv.appendChild(streamContent);
+      chatDisplay.appendChild(streamDiv);
+      scrollToBottom();
+
+      var streamFailed = false;
+      var response;
+      try {
+        response = await attemptStreamRequest(prompt, contextData, signal,
+          function onDelta(delta, fullText) {
+            streamContent.innerHTML = escapeHtml(fullText).replace(
+              /&lt;root_cause&gt;([\s\S]*?)&lt;\/root_cause&gt;/g,
+              '<span class="root-cause-highlight">$1</span>'
+            );
+            scrollToBottom();
+          }
+        );
+      } catch (streamErr) {
+        // if streaming fails (unsupported), fallback to non-streaming
+        if (streamErr.name === 'AbortError') throw streamErr;
+        streamFailed = true;
+        streamDiv.remove();
+      }
+
+      if (streamFailed) {
+        // fallback: re-add loading indicator and use non-streaming
+        var fallbackLoadId = appendSystemMessage(t(currentLang, 'stage3'));
+        response = await retryWithBackoff(
+          () => attemptRequest(prompt, contextData, signal),
+          2, signal,
+          function(attempt, delay) {
+            updateProgress(fallbackLoadId,
+              '[3/4] Retry ' + attempt + '/2 in ' + (delay / 1000) + 's...');
+          }
+        );
+        removeLoading(fallbackLoadId);
+        appendMessage('bot', response);
+      } else {
+        // streaming done — add copy button to the stream div
+        var copyBtn = document.createElement('button');
+        copyBtn.className = 'copy-btn';
+        copyBtn.textContent = t(currentLang, 'copy');
+        copyBtn.title = 'Copy to clipboard';
+        var finalText = response;
+        copyBtn.onclick = function() {
+          navigator.clipboard.writeText(finalText).then(function() {
+            copyBtn.textContent = t(currentLang, 'copied');
+            setTimeout(function() { copyBtn.textContent = t(currentLang, 'copy'); }, 2000);
+          });
+        };
+        streamDiv.appendChild(copyBtn);
+      }
 
       requestTimer.stop();
-      updateProgress(loadingMsgId, t(currentLang, 'stage4'));
-      removeLoading(loadingMsgId);
       lastBotResponse = response;
-      appendMessage('bot', response);
       var timingSummary = requestTimer.summary();
       if (timingSummary) {
         appendSystemMessage(t(currentLang, 'completed') + timingSummary);
@@ -1790,15 +1835,16 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // delegate to shared api-utils.js (loaded before popup.js)
-  function buildPayload(messages) {
-    return buildApiPayload(messages, config);
+  function buildPayload(messages, opts) {
+    var cfg = Object.assign({}, config, opts || {});
+    return buildApiPayload(messages, cfg);
   }
 
   function extractResponseContent(data) {
     return extractApiResponse(data);
   }
 
-  // perform a single API request and return the content string (or throw)
+  // perform a single non-streaming API request and return the content string
   async function attemptRequest(prompt, contextData, signal) {
       var url = constructApiUrl(config);
       var messages = buildMessages(prompt, contextData);
@@ -1826,6 +1872,67 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       return content;
+  }
+
+  // streaming request: reads SSE chunks and calls onDelta(text) for each token
+  async function attemptStreamRequest(prompt, contextData, signal, onDelta) {
+      var url = constructApiUrl(config);
+      var messages = buildMessages(prompt, contextData);
+      var payload = buildPayload(messages, { stream: true });
+      var headers = buildApiHeaders(config);
+      var format = config.apiFormat || 'openai';
+
+      var response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+        signal: signal
+      });
+
+      if (!response.ok) {
+        var errorText = await response.text();
+        throw new Error('API Error: ' + response.status + ' ' + errorText);
+      }
+
+      var reader = response.body.getReader();
+      var decoder = new TextDecoder();
+      var buffer = '';
+      var fullText = '';
+
+      while (true) {
+        var result = await reader.read();
+        if (result.done) break;
+
+        buffer += decoder.decode(result.value, { stream: true });
+        var lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (!line || line === 'data: [DONE]' || line === 'event: done') continue;
+          if (line.startsWith('event:')) continue;
+          if (line.startsWith('data: ')) {
+            line = line.slice(6);
+          } else if (line.startsWith('data:')) {
+            line = line.slice(5);
+          } else {
+            continue;
+          }
+          try {
+            var chunk = JSON.parse(line);
+            var delta = extractStreamDelta(chunk, format);
+            if (delta) {
+              fullText += delta;
+              onDelta(delta, fullText);
+            }
+          } catch (e) {
+            // skip malformed JSON lines
+          }
+        }
+      }
+
+      if (!fullText) return "No response content.";
+      return fullText;
   }
 
   // safely update the loading/progress message in the chat panel
