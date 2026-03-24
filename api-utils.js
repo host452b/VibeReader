@@ -370,10 +370,14 @@ var API_PROVIDERS = {
     apiFormat: 'openai',
     requiresKey: true,
     models: [
-      'meta/llama-3.1-8b-instruct',
-      'nvidia/llama-3.1-nemotron-70b-instruct'
+      'deepseek-ai/deepseek-v3.2',
+      'qwen/qwen3.5-122b-a10b',
+      'minimaxai/minimax-m2.1',
+      'nvidia/nemotron-3-nano-30b-a3b',
+      'moonshotai/kimi-k2-instruct',
+      'moonshotai/kimi-k2.5'
     ],
-    defaultModel: 'meta/llama-3.1-8b-instruct',
+    defaultModel: 'deepseek-ai/deepseek-v3.2',
     hint: 'NVIDIA hosted models. Free credits available — register at build.nvidia.com'
   },
 
