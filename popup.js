@@ -1068,6 +1068,48 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // render markdown to HTML (with root_cause tag support)
+  function renderMarkdown(text) {
+    // strip <root_cause> tags before markdown, re-add after
+    var rootCauses = [];
+    var stripped = text.replace(/<root_cause>([\s\S]*?)<\/root_cause>/g, function(m, p1, offset) {
+      var placeholder = '%%RC' + rootCauses.length + '%%';
+      rootCauses.push(p1);
+      return placeholder;
+    });
+    var html = (typeof marked !== 'undefined' && marked.parse)
+      ? marked.parse(stripped, { breaks: true, gfm: true })
+      : '<pre style="white-space:pre-wrap">' + escapeHtml(stripped) + '</pre>';
+    // restore root_cause highlights
+    for (var i = 0; i < rootCauses.length; i++) {
+      html = html.replace('%%RC' + i + '%%',
+        '<span class="root-cause-highlight">' + escapeHtml(rootCauses[i]) + '</span>');
+    }
+    return html;
+  }
+
+  // throttled markdown render for streaming (max once per 150ms)
+  var _mdRenderTimer = null;
+  function renderMarkdownThrottled(el, text, immediate) {
+    if (immediate) {
+      el.innerHTML = renderMarkdown(text);
+      return;
+    }
+    if (_mdRenderTimer) return;
+    _mdRenderTimer = setTimeout(function() {
+      _mdRenderTimer = null;
+      el.innerHTML = renderMarkdown(text);
+    }, 150);
+  }
+
+  // close panel
+  var closeBtn = document.getElementById('close-btn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      window.close();
+    });
+  }
+
   // send message
   sendBtn.addEventListener('click', sendMessage);
 
@@ -1440,7 +1482,7 @@ document.addEventListener('DOMContentLoaded', function() {
       streamDiv.id = streamMsgId;
       streamDiv.classList.add('message', 'bot-message');
       var streamContent = document.createElement('div');
-      streamContent.style.whiteSpace = 'pre-wrap';
+      streamContent.classList.add('md-content');
       streamDiv.appendChild(streamContent);
       chatDisplay.appendChild(streamDiv);
       scrollToBottom();
@@ -1450,13 +1492,12 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         response = await attemptStreamRequest(prompt, contextData, signal,
           function onDelta(delta, fullText) {
-            streamContent.innerHTML = escapeHtml(fullText).replace(
-              /&lt;root_cause&gt;([\s\S]*?)&lt;\/root_cause&gt;/g,
-              '<span class="root-cause-highlight">$1</span>'
-            );
+            renderMarkdownThrottled(streamContent, fullText, false);
             scrollToBottom();
           }
         );
+        // final render with full text
+        renderMarkdownThrottled(streamContent, response, true);
       } catch (streamErr) {
         // if streaming fails (unsupported), fallback to non-streaming
         if (streamErr.name === 'AbortError') throw streamErr;
@@ -2153,24 +2194,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Create content container
     const contentDiv = document.createElement('div');
-    contentDiv.style.whiteSpace = 'pre-wrap';
 
-    // Process custom formatting tags if present
     if (role === 'bot') {
-        // Replace <root_cause>...</root_cause> with highlighted span
-        // Note: This is a simple regex replacement. Be careful with nested tags or XSS if text was not trusted (but here it's from LLM).
-        // We use a temporary replacement to avoid XSS, then textContent, then restore html.
-        // A safer way for simple highlighting:
-        
-        // 1. Escape HTML chars first to prevent injection
-        let safeText = escapeHtml(text);
-
-        // 2. Restore our specific tag for styling
-        // We look for the escaped version of <root_cause>
-        safeText = safeText.replace(/&lt;root_cause&gt;([\s\S]*?)&lt;\/root_cause&gt;/g, '<span class="root-cause-highlight">$1</span>');
-
-        contentDiv.innerHTML = safeText;
+        contentDiv.classList.add('md-content');
+        contentDiv.innerHTML = renderMarkdown(text);
     } else {
+        contentDiv.style.whiteSpace = 'pre-wrap';
         contentDiv.textContent = text;
     }
 
