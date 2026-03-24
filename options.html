@@ -5,48 +5,47 @@
   <title>VibeReader Settings</title>
   <style>
     :root {
-      --bg:     #FFFCF0;
-      --bg-2:   #F2F0E5;
-      --card:   #FFFCF0;
-      --border: #E6E4D9;
-      --tx:     #343331;
-      --tx-2:   #6F6E69;
-      --tx-3:   #B7B5AC;
-      --tx-4:   #CECDC3;
-      --accent: #343331;
-      --blue:   #205EA6;
-      --red:    #AF3029;
-      --green:  #66800B;
+      --bg:     #fefae0;
+      --bg-2:   #faedcd;
+      --card:   #fefae0;
+      --border: #e9edc9;
+      --tx:     #504838;
+      --tx-2:   #7B6E5B;
+      --tx-3:   #A89B88;
+      --tx-4:   #CCC3B2;
+      --accent: #d4a373;
+      --blue:   #5A7EA0;
+      --red:    #B84A3A;
+      --green:  #7A8B3A;
       --radius: 10px;
-      --shadow: 0 1px 3px rgba(16,15,15,0.06), 0 1px 2px rgba(16,15,15,0.04);
+      --shadow: 0 1px 3px rgba(80,72,56,0.10), 0 1px 2px rgba(80,72,56,0.06);
       --font:   -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       --mono:   'SF Mono', Menlo, Consolas, monospace;
-      /* legacy compat */
-      --fl-paper: var(--bg); --fl-100: var(--bg-2); --fl-150: #E6E4D9;
-      --fl-200: var(--border); --fl-300: #CECDC3; --fl-green: var(--green);
+      --fl-paper: var(--bg); --fl-100: var(--bg-2); --fl-150: #e9edc9;
+      --fl-200: var(--border); --fl-300: #CCC3B2; --fl-green: var(--green);
       --fl-blue: var(--blue); --fl-red: var(--red); --fl-black: var(--tx);
-      --fl-700: #403E3C; --fl-800: #282726;
-      --header-bg: rgba(255,252,240,0.85);
+      --fl-700: #6B6258; --fl-800: #504838;
+      --header-bg: rgba(254,250,224,0.85);
     }
     [data-theme="dark"] {
-      --bg:     #1C1B1A;
-      --bg-2:   #282726;
-      --card:   #282726;
-      --border: #403E3C;
-      --tx:     #B7B5AC;
-      --tx-2:   #878580;
-      --tx-3:   #575653;
-      --tx-4:   #403E3C;
-      --accent: #B7B5AC;
-      --blue:   #4385BE;
-      --red:    #D14D41;
-      --green:  #879A39;
-      --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
-      --fl-paper: var(--bg); --fl-100: var(--bg-2); --fl-150: #282726;
-      --fl-200: var(--border); --fl-300: #403E3C; --fl-green: var(--green);
+      --bg:     #2C2822;
+      --bg-2:   #38332C;
+      --card:   #38332C;
+      --border: #504838;
+      --tx:     #D4CAB8;
+      --tx-2:   #A89B88;
+      --tx-3:   #6B6258;
+      --tx-4:   #504838;
+      --accent: #d4a373;
+      --blue:   #7A9EBE;
+      --red:    #D46A5A;
+      --green:  #9AAE50;
+      --shadow: 0 1px 3px rgba(0,0,0,0.28), 0 1px 2px rgba(0,0,0,0.18);
+      --fl-paper: var(--bg); --fl-100: var(--bg-2); --fl-150: #38332C;
+      --fl-200: var(--border); --fl-300: #504838; --fl-green: var(--green);
       --fl-blue: var(--blue); --fl-red: var(--red); --fl-black: var(--tx);
-      --fl-700: #B7B5AC; --fl-800: #CECDC3;
-      --header-bg: rgba(28,27,26,0.85);
+      --fl-700: #CCC3B2; --fl-800: #D4CAB8;
+      --header-bg: rgba(44,40,34,0.85);
     }
     * { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; }
@@ -124,8 +123,8 @@
     }
     .card-dot-green { background: var(--green); }
     .card-dot-blue  { background: var(--blue); }
-    .card-dot-purple { background: #5E409D; }
-    .card-dot-orange { background: #BC5215; }
+    .card-dot-purple { background: var(--accent); }
+    .card-dot-orange { background: #C47030; }
     .card-title {
       font-size: 13px;
       font-weight: 600;
