@@ -4,10 +4,10 @@
    ============================================================ */
 
 :root {
-  /* ── Flexoki Light ── */
-  --bg:      #FFFCF0;
-  --bg-sub:  #F2F0E5;
-  --border:  #E6E4D9;
+  /* ── Flexoki Light (toned) ── */
+  --bg:      #FAFAF7;
+  --bg-sub:  #F5F4F0;
+  --border:  #E8E7E2;
   --tx:      #343331;
   --tx-2:    #6F6E69;
   --tx-3:    #B7B5AC;
@@ -25,9 +25,9 @@
   /* legacy compat */
   --fl-paper: var(--bg);
   --fl-100:   var(--bg-sub);
-  --fl-150:   #DAD8CE;
+  --fl-150:   #DDDCD8;
   --fl-200:   var(--border);
-  --fl-300:   #CECDC3;
+  --fl-300:   #D0CFC9;
   --fl-400:   #B7B5AC;
   --fl-500:   var(--tx-2);
   --fl-600:   #575653;
@@ -43,21 +43,21 @@
   --fl-yellow:    var(--yellow);
   --fl-purple:    var(--purple);
   --fl-magenta:   var(--magenta);
-  --fl-red-bg:    #FBE3DF;
-  --fl-orange-bg: #F9E4CB;
-  --fl-yellow-bg: #F5ECBC;
-  --fl-green-bg:  #E5EACC;
-  --fl-cyan-bg:   #D9F0EB;
-  --fl-blue-bg:   #DBE5F1;
-  --fl-purple-bg: #EBE6F4;
-  --fl-magenta-bg:#F5DFE9;
+  --fl-red-bg:    #FCEAE7;
+  --fl-orange-bg: #FAEBDB;
+  --fl-yellow-bg: #F7F0D8;
+  --fl-green-bg:  #ECF0DA;
+  --fl-cyan-bg:   #E2F1ED;
+  --fl-blue-bg:   #E3EAF3;
+  --fl-purple-bg: #EEEBF5;
+  --fl-magenta-bg:#F5E5ED;
 
   --ring:     #403E3C;
   --ring-offset: var(--bg);
   --radius:   8px;
   --shadow-sm: 0 1px 2px 0 rgba(16,15,15,0.05);
   --shadow:    0 1px 3px 0 rgba(16,15,15,0.08), 0 1px 2px -1px rgba(16,15,15,0.05);
-  --muted:     #F2F0E5;
+  --muted:     #F5F4F0;
   --muted-fg:  #6F6E69;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
