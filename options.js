@@ -1,6 +1,15 @@
 // VibeReader options page logic
 // uses API_PROVIDERS and API_DEFAULTS from api-utils.js
 
+// --- theme management ---
+(function initTheme() {
+  chrome.storage.sync.get({ theme: 'light' }, function(s) {
+    document.documentElement.setAttribute('data-theme', s.theme);
+    var btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = s.theme === 'dark' ? '\u263E' : '\u263C';
+  });
+})();
+
 // current language
 var currentLang = I18N_DEFAULT;
 
@@ -256,6 +265,7 @@ function saveOptions() {
     },
     function() {
       showStatus('status', 'Settings saved.', 'green');
+      flashButton('save', 'success');
     }
   );
 }
@@ -435,6 +445,7 @@ async function testConnection() {
       var preview = content ? content.substring(0, 80) : '(response received)';
       showStatus('testStatus',
         'Connection OK! Response: ' + preview, 'green', 5000);
+      flashButton('testConnection', 'success');
     } else {
       var serverMsg = '';
       try {
@@ -467,6 +478,7 @@ async function testConnection() {
       }
       errorMessage += '\nURL: ' + url;
       showStatus('testStatus', errorMessage, 'red', 8000);
+      flashButton('testConnection', 'error');
     }
   } catch (error) {
     var hint = '';
@@ -475,6 +487,7 @@ async function testConnection() {
     }
     showStatus('testStatus',
       'Network Error: ' + error.message + hint + '\nURL: ' + url, 'red', 8000);
+    flashButton('testConnection', 'error');
   }
 }
 
@@ -585,7 +598,27 @@ function showStatus(id, msg, color, duration) {
   el.style.color = color;
   el.style.whiteSpace = 'pre-wrap';
   el.style.display = 'block';
-  setTimeout(function() { el.style.display = 'none'; }, duration);
+  el.classList.remove('status-fade-out', 'status-animate');
+  void el.offsetWidth; // force reflow
+  el.classList.add('status-animate');
+  setTimeout(function() {
+    el.classList.add('status-fade-out');
+    setTimeout(function() {
+      el.style.display = 'none';
+      el.classList.remove('status-fade-out', 'status-animate');
+    }, 300);
+  }, duration);
+}
+
+function flashButton(btnId, type) {
+  var btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.classList.remove('btn-flash-success', 'btn-flash-error');
+  void btn.offsetWidth;
+  btn.classList.add(type === 'error' ? 'btn-flash-error' : 'btn-flash-success');
+  setTimeout(function() {
+    btn.classList.remove('btn-flash-success', 'btn-flash-error');
+  }, 600);
 }
 
 // --- event wiring ---
@@ -606,6 +639,18 @@ document.getElementById('lang').addEventListener('change', function() {
       systemPrompt: newPrompt
     });
   });
+});
+
+document.getElementById('theme-toggle').addEventListener('click', function() {
+  var current = document.documentElement.getAttribute('data-theme') || 'light';
+  var next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.classList.add('theme-transition');
+  document.documentElement.setAttribute('data-theme', next);
+  this.textContent = next === 'dark' ? '\u263E' : '\u263C';
+  chrome.storage.sync.set({ theme: next });
+  setTimeout(function() {
+    document.documentElement.classList.remove('theme-transition');
+  }, 350);
 });
 
 document.getElementById('provider').addEventListener('change', updateProviderUI);

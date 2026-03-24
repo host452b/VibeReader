@@ -5,27 +5,48 @@
   <title>VibeReader Settings</title>
   <style>
     :root {
-      --bg:     #FAFAF9;
-      --bg-2:   #F5F5F4;
-      --card:   #FFFFFF;
-      --border: #E7E5E4;
-      --tx:     #1C1917;
-      --tx-2:   #57534E;
-      --tx-3:   #A8A29E;
-      --tx-4:   #D6D3D1;
-      --accent: #292524;
-      --blue:   #2563EB;
-      --red:    #B91C1C;
-      --green:  #4D7C0F;
+      --bg:     #FFFCF0;
+      --bg-2:   #F2F0E5;
+      --card:   #FFFCF0;
+      --border: #E6E4D9;
+      --tx:     #100F0F;
+      --tx-2:   #6F6E69;
+      --tx-3:   #B7B5AC;
+      --tx-4:   #CECDC3;
+      --accent: #100F0F;
+      --blue:   #205EA6;
+      --red:    #AF3029;
+      --green:  #66800B;
       --radius: 10px;
-      --shadow: 0 1px 3px rgba(28,25,23,0.06), 0 1px 2px rgba(28,25,23,0.04);
+      --shadow: 0 1px 3px rgba(16,15,15,0.06), 0 1px 2px rgba(16,15,15,0.04);
       --font:   -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       --mono:   'SF Mono', Menlo, Consolas, monospace;
       /* legacy compat */
-      --fl-paper: var(--bg); --fl-100: var(--bg-2); --fl-150: #EEECEB;
-      --fl-200: var(--border); --fl-300: #D6D3D1; --fl-green: var(--green);
+      --fl-paper: var(--bg); --fl-100: var(--bg-2); --fl-150: #E6E4D9;
+      --fl-200: var(--border); --fl-300: #CECDC3; --fl-green: var(--green);
       --fl-blue: var(--blue); --fl-red: var(--red); --fl-black: var(--tx);
-      --fl-700: #44403C; --fl-800: #292524;
+      --fl-700: #403E3C; --fl-800: #282726;
+      --header-bg: rgba(255,252,240,0.85);
+    }
+    [data-theme="dark"] {
+      --bg:     #100F0F;
+      --bg-2:   #1C1B1A;
+      --card:   #1C1B1A;
+      --border: #343331;
+      --tx:     #CECDC3;
+      --tx-2:   #878580;
+      --tx-3:   #575653;
+      --tx-4:   #403E3C;
+      --accent: #CECDC3;
+      --blue:   #4385BE;
+      --red:    #D14D41;
+      --green:  #879A39;
+      --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+      --fl-paper: var(--bg); --fl-100: var(--bg-2); --fl-150: #282726;
+      --fl-200: var(--border); --fl-300: #403E3C; --fl-green: var(--green);
+      --fl-blue: var(--blue); --fl-red: var(--red); --fl-black: var(--tx);
+      --fl-700: #B7B5AC; --fl-800: #CECDC3;
+      --header-bg: rgba(16,15,15,0.85);
     }
     * { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; }
@@ -46,7 +67,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 14px 24px;
-      background: rgba(250,250,249,0.85);
+      background: var(--header-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
@@ -103,8 +124,8 @@
     }
     .card-dot-green { background: var(--green); }
     .card-dot-blue  { background: var(--blue); }
-    .card-dot-purple { background: #7C3AED; }
-    .card-dot-orange { background: #C2410C; }
+    .card-dot-purple { background: #5E409D; }
+    .card-dot-orange { background: #BC5215; }
     .card-title {
       font-size: 13px;
       font-weight: 600;
@@ -153,7 +174,7 @@
       content: '';
       position: absolute;
       width: 16px; height: 16px;
-      background: #fff;
+      background: var(--card);
       border-radius: 50%;
       top: 2px; left: 2px;
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -250,7 +271,7 @@
     }
     .template-item:last-child { border-bottom: none; }
     .template-item:hover { background: var(--bg-2); }
-    .template-item.active { background: #EFF6FF; font-weight: 600; }
+    .template-item.active { background: var(--bg-2); font-weight: 600; }
 
     /* ── two column ───────────────────────── */
     .two-col { display: flex; gap: 16px; }
@@ -270,6 +291,56 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--tx-4); border-radius: 2px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--tx-3); }
+
+    /* ── theme transition ── */
+    .theme-transition,
+    .theme-transition *,
+    .theme-transition *::before,
+    .theme-transition *::after {
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s !important;
+    }
+
+    /* ── status fade animation ── */
+    @keyframes status-fade-in {
+      from { opacity: 0; transform: translateY(-4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes status-fade-out {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+    .status-animate {
+      animation: status-fade-in 0.2s ease-out;
+    }
+    .status-fade-out {
+      animation: status-fade-out 0.3s ease-out forwards;
+    }
+
+    /* ── button flash feedback ── */
+    @keyframes btn-flash-success {
+      0%   { background-color: var(--green); }
+      100% { background-color: var(--accent); }
+    }
+    @keyframes btn-flash-error {
+      0%   { background-color: var(--red); }
+      100% { background-color: var(--accent); }
+    }
+    .btn-flash-success { animation: btn-flash-success 0.6s ease-out; }
+    .btn-flash-error { animation: btn-flash-error 0.6s ease-out; }
+
+    /* ── theme toggle ── */
+    .theme-toggle {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 8px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      color: var(--tx-2);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .theme-toggle:hover { border-color: var(--tx-3); color: var(--tx); }
   </style>
 </head>
 <body>
@@ -278,6 +349,7 @@
   <div class="page-header">
     <div class="page-title">VibeReader <span>settings</span></div>
     <div class="header-right">
+      <button id="theme-toggle" class="theme-toggle" title="Toggle theme">&#9788;</button>
       <select id="lang" class="lang-select">
         <option value="en">EN</option>
         <option value="ja">JA</option>

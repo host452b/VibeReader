@@ -4,32 +4,35 @@
    ============================================================ */
 
 :root {
-  /* warm stone neutrals (tailwind stone palette) */
-  --bg:      #FAFAF9;
-  --bg-sub:  #F5F5F4;
-  --border:  #E7E5E4;
-  --tx:      #1C1917;
-  --tx-2:    #57534E;
-  --tx-3:    #A8A29E;
-  --tx-4:    #D6D3D1;
-  --accent:  #292524;
-  --blue:    #2563EB;
-  --red:     #B91C1C;
-  --orange:  #C2410C;
-  --green:   #4D7C0F;
-  --cyan:    #0E7490;
+  /* ── light theme (warm paper) ── */
+  --bg:      #FFFCF0;
+  --bg-sub:  #F2F0E5;
+  --border:  #E6E4D9;
+  --tx:      #100F0F;
+  --tx-2:    #6F6E69;
+  --tx-3:    #B7B5AC;
+  --tx-4:    #CECDC3;
+  --accent:  #100F0F;
+  --blue:    #205EA6;
+  --red:     #AF3029;
+  --orange:  #BC5215;
+  --green:   #66800B;
+  --cyan:    #24837B;
+  --yellow:  #AD8301;
+  --purple:  #5E409D;
+  --magenta: #A02F6F;
 
   /* legacy compat */
   --fl-paper: var(--bg);
   --fl-100:   var(--bg-sub);
-  --fl-150:   #EEECEB;
+  --fl-150:   #E6E4D9;
   --fl-200:   var(--border);
-  --fl-300:   #D6D3D1;
-  --fl-400:   #A8A29E;
+  --fl-300:   #CECDC3;
+  --fl-400:   #B7B5AC;
   --fl-500:   var(--tx-2);
   --fl-600:   var(--tx-2);
-  --fl-700:   #44403C;
-  --fl-800:   #292524;
+  --fl-700:   #403E3C;
+  --fl-800:   #282726;
   --fl-900:   var(--tx);
   --fl-black: var(--tx);
   --fl-red:       var(--red);
@@ -37,30 +40,94 @@
   --fl-green:     var(--green);
   --fl-cyan:      var(--cyan);
   --fl-blue:      var(--blue);
-  --fl-yellow:    #A16207;
-  --fl-purple:    #6D28D9;
-  --fl-magenta:   #BE185D;
-  --fl-red-bg:    #FEF2F2;
-  --fl-orange-bg: #FFF7ED;
-  --fl-yellow-bg: #FEFCE8;
-  --fl-green-bg:  #F0FDF4;
-  --fl-cyan-bg:   #ECFEFF;
-  --fl-blue-bg:   #EFF6FF;
-  --fl-purple-bg: #F5F3FF;
-  --fl-magenta-bg:#FDF2F8;
+  --fl-yellow:    var(--yellow);
+  --fl-purple:    var(--purple);
+  --fl-magenta:   var(--magenta);
+  --fl-red-bg:    #FFE1D5;
+  --fl-orange-bg: #FBE8D3;
+  --fl-yellow-bg: #FAF0D1;
+  --fl-green-bg:  #EEF2D4;
+  --fl-cyan-bg:   #DAF0EE;
+  --fl-blue-bg:   #E1ECF5;
+  --fl-purple-bg: #EDEBF7;
+  --fl-magenta-bg:#F5E3EE;
 
-  --ring:     #44403C;
+  --ring:     #403E3C;
   --ring-offset: var(--bg);
   --radius:   8px;
-  --shadow-sm: 0 1px 2px 0 rgba(28,25,23,0.04);
-  --shadow:    0 1px 3px 0 rgba(28,25,23,0.08), 0 1px 2px -1px rgba(28,25,23,0.06);
-  --muted:     #F5F5F4;
-  --muted-fg:  #78716C;
+  --shadow-sm: 0 1px 2px 0 rgba(16,15,15,0.04);
+  --shadow:    0 1px 3px 0 rgba(16,15,15,0.08), 0 1px 2px -1px rgba(16,15,15,0.06);
+  --muted:     #F2F0E5;
+  --muted-fg:  #6F6E69;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --font: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --mono: 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', monospace;
+}
+
+/* ── dark theme ── */
+[data-theme="dark"] {
+  --bg:      #100F0F;
+  --bg-sub:  #1C1B1A;
+  --border:  #343331;
+  --tx:      #CECDC3;
+  --tx-2:    #878580;
+  --tx-3:    #575653;
+  --tx-4:    #403E3C;
+  --accent:  #CECDC3;
+  --blue:    #4385BE;
+  --red:     #D14D41;
+  --orange:  #DA702C;
+  --green:   #879A39;
+  --cyan:    #3AA99F;
+  --yellow:  #D0A215;
+  --purple:  #8B7EC8;
+  --magenta: #CE5D97;
+
+  --fl-paper: var(--bg);
+  --fl-100:   var(--bg-sub);
+  --fl-150:   #282726;
+  --fl-200:   var(--border);
+  --fl-300:   #403E3C;
+  --fl-400:   #575653;
+  --fl-500:   var(--tx-2);
+  --fl-600:   var(--tx-2);
+  --fl-700:   #B7B5AC;
+  --fl-800:   #CECDC3;
+  --fl-900:   var(--tx);
+  --fl-black: var(--tx);
+  --fl-red:       var(--red);
+  --fl-orange:    var(--orange);
+  --fl-green:     var(--green);
+  --fl-cyan:      var(--cyan);
+  --fl-blue:      var(--blue);
+  --fl-yellow:    var(--yellow);
+  --fl-purple:    var(--purple);
+  --fl-magenta:   var(--magenta);
+  --fl-red-bg:    #2D1515;
+  --fl-orange-bg: #2D1C10;
+  --fl-yellow-bg: #2D2610;
+  --fl-green-bg:  #1E2210;
+  --fl-cyan-bg:   #0F2422;
+  --fl-blue-bg:   #121F30;
+  --fl-purple-bg: #1E1A30;
+  --fl-magenta-bg:#2A1525;
+
+  --ring:     #878580;
+  --ring-offset: var(--bg);
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.2);
+  --shadow:    0 1px 3px 0 rgba(0,0,0,0.3), 0 1px 2px -1px rgba(0,0,0,0.2);
+  --muted:     #1C1B1A;
+  --muted-fg:  #878580;
+}
+
+/* smooth theme transition */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s !important;
 }
 
 /* shadcn focus ring: double-ring (white gap + colored ring) on keyboard nav */
@@ -115,6 +182,14 @@ button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-
 @keyframes heartbeat-scroll-active { to{transform:translateX(-50%)} }
 @keyframes split-bar-sweep { from{transform:translateX(-100%)} to{transform:translateX(460%)} }
 @keyframes split-complete-flash { 0%{opacity:1} 50%{opacity:.6} 100%{opacity:1} }
+@keyframes btn-flash-green {
+  0%   { background-color: #66800B; }
+  100% { background-color: var(--accent); }
+}
+@keyframes btn-flash-red {
+  0%   { background-color: #D14D41; }
+  100% { background-color: var(--accent); }
+}
 
 /* ============================================================
    GLOBAL
@@ -879,9 +954,9 @@ textarea::placeholder { color: var(--tx-4); }
 
 .add-tab-btn {
   background: none;
-  border: 1px solid var(--border);
+  border: 1.5px dashed var(--cyan);
   border-radius: 6px;
-  color: var(--tx-3);
+  color: var(--cyan);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -891,15 +966,15 @@ textarea::placeholder { color: var(--tx-4); }
   padding: 3px 10px;
   font-family: var(--font);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
   line-height: 1;
 }
 
 .add-tab-btn:hover {
-  color: var(--tx);
-  border-color: var(--tx-3);
-  background: var(--muted);
+  color: var(--bg);
+  border-color: var(--cyan);
+  background: var(--cyan);
 }
 
 /* tab-picker styles moved to standalone tab-picker.html */

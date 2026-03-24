@@ -1,4 +1,26 @@
+// --- theme management ---
+(function initTheme() {
+  chrome.storage.sync.get({ theme: 'light' }, function(s) {
+    document.documentElement.setAttribute('data-theme', s.theme);
+  });
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
+  // theme toggle
+  var themeBtn = document.getElementById('theme-btn');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme') || 'light';
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.classList.add('theme-transition');
+      document.documentElement.setAttribute('data-theme', next);
+      chrome.storage.sync.set({ theme: next });
+      setTimeout(function() {
+        document.documentElement.classList.remove('theme-transition');
+      }, 350);
+    });
+  }
+
   const sendBtn = document.getElementById('send-btn');
   const stopBtn = document.getElementById('stop-btn');
   const settingsBtn = document.getElementById('settings-btn');

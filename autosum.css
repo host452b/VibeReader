@@ -29,9 +29,9 @@
   left: 0;
   width: 380px;
   height: 100vh;
-  background: #FAFAF9;
-  border-right: 1px solid #E7E5E4;
-  box-shadow: 2px 0 12px rgba(28,25,23,0.04);
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  box-shadow: 2px 0 12px rgba(16,15,15,0.04);
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   z-index: 2147483647;
   display: flex;
@@ -39,7 +39,7 @@
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               opacity 0.25s ease;
   overflow: hidden;
-  color: #1C1917;
+  color: var(--tx);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -58,7 +58,7 @@
   display: none;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  color: #A8A29E;
+  color: var(--tx-3);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -80,21 +80,21 @@
 }
 
 #chrome-autosum-sidebar.collapsed:hover .autosum-bar-label {
-  color: #1C1917;
+  color: var(--tx);
 }
 
 #chrome-autosum-sidebar.flash-once.collapsed .autosum-bar-label {
-  color: #0E7490;
+  color: var(--cyan);
   animation: autosum-flash-once 1s ease-out 1 forwards;
 }
 
 #chrome-autosum-sidebar.unread.collapsed .autosum-bar-label {
-  color: #0E7490;
+  color: var(--cyan);
 }
 
 .autosum-header {
   background: none;
-  border-bottom: 1px solid #E7E5E4;
+  border-bottom: 1px solid var(--border);
   padding: 12px 16px;
   display: flex;
   align-items: center;
@@ -105,8 +105,8 @@
 
 .autosum-toggle-btn {
   background: none;
-  border: 1px solid #E7E5E4;
-  color: #57534E;
+  border: 1px solid var(--border);
+  color: var(--tx-2);
   cursor: pointer;
   font-family: inherit;
   font-size: 12px;
@@ -121,8 +121,8 @@
 }
 
 .autosum-toggle-btn:hover {
-  color: #1C1917;
-  border-color: #A8A29E;
+  color: var(--tx);
+  border-color: var(--tx-3);
 }
 
 .autosum-toggle-btn:active {
@@ -130,7 +130,7 @@
 }
 
 .autosum-header-title {
-  color: #1C1917;
+  color: var(--tx);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -150,18 +150,18 @@
 
 .autosum-content::-webkit-scrollbar { width: 4px; }
 .autosum-content::-webkit-scrollbar-track { background: transparent; }
-.autosum-content::-webkit-scrollbar-thumb { background: #D6D3D1; border-radius: 2px; }
-.autosum-content::-webkit-scrollbar-thumb:hover { background: #A8A29E; }
+.autosum-content::-webkit-scrollbar-thumb { background: var(--tx-4); border-radius: 2px; }
+.autosum-content::-webkit-scrollbar-thumb:hover { background: var(--tx-3); }
 
 .autosum-status {
-  color: #A8A29E;
+  color: var(--tx-3);
   font-size: 13px;
   text-align: center;
   padding: 30px 10px;
 }
 
 .autosum-summary {
-  color: #1C1917;
+  color: var(--tx);
   font-size: 14px;
   line-height: 1.8;
   white-space: pre-wrap;
@@ -181,19 +181,19 @@
 .autosum-loading-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid #E7E5E4;
-  border-top-color: #1C1917;
+  border: 2px solid var(--border);
+  border-top-color: var(--tx);
   border-radius: 50%;
   animation: autosum-spin 0.7s linear infinite;
 }
 
 .autosum-loading-text {
-  color: #A8A29E;
+  color: var(--tx-3);
   font-size: 12px;
 }
 
 .autosum-error {
-  color: #B91C1C;
+  color: var(--red);
   font-size: 13px;
   font-weight: 500;
   text-align: center;
@@ -203,7 +203,7 @@
 
 .autosum-footer {
   padding: 10px 16px;
-  border-top: 1px solid #E7E5E4;
+  border-top: 1px solid var(--border);
   display: flex;
   justify-content: center;
   flex-shrink: 0;
@@ -212,8 +212,8 @@
 
 .autosum-retry-btn {
   background: none;
-  border: 1px solid #E7E5E4;
-  color: #57534E;
+  border: 1px solid var(--border);
+  color: var(--tx-2);
   cursor: pointer;
   font-family: inherit;
   font-size: 11px;
@@ -226,8 +226,8 @@
 }
 
 .autosum-retry-btn:hover {
-  color: #1C1917;
-  border-color: #A8A29E;
+  color: var(--tx);
+  border-color: var(--tx-3);
 }
 
 .autosum-retry-btn:active {
@@ -240,6 +240,16 @@
 }
 
 .autosum-retry-btn:disabled:hover {
-  color: #57534E;
-  border-color: #E7E5E4;
+  color: var(--tx-2);
+  border-color: var(--border);
+}
+
+/* ── dark theme overrides ── */
+[data-theme="dark"] #chrome-autosum-sidebar {
+  box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+}
+
+[data-theme="dark"] .autosum-loading-spinner {
+  border-color: var(--border);
+  border-top-color: var(--tx);
 }

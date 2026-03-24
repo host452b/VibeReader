@@ -48,6 +48,13 @@
       '</div>'
     ].join('\n');
 
+    // apply theme
+    try {
+      chrome.storage.sync.get({ theme: 'light' }, function(s) {
+        if (sidebar) sidebar.setAttribute('data-theme', s.theme);
+      });
+    } catch (e) { /* storage may be unavailable */ }
+
     // inject CSS
     injectStyles();
 
