@@ -23,7 +23,18 @@
   100% { opacity: 1; }
 }
 
+/* scope CSS vars to sidebar (injected into arbitrary web pages) */
 #chrome-autosum-sidebar {
+  --bg:      #FAFAF7;
+  --bg-sub:  #F5F4F0;
+  --border:  #E8E7E2;
+  --tx:      #343331;
+  --tx-2:    #6F6E69;
+  --tx-3:    #B7B5AC;
+  --tx-4:    #CECDC3;
+  --red:     #AF3029;
+  --cyan:    #24837B;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -31,7 +42,7 @@
   height: 100vh;
   background: var(--bg);
   border-right: 1px solid var(--border);
-  box-shadow: 2px 0 12px rgba(16,15,15,0.05);
+  box-shadow: 2px 0 16px rgba(16,15,15,0.10);
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   z-index: 2147483647;
   display: flex;
@@ -245,11 +256,15 @@
 }
 
 /* ── dark theme overrides ── */
-[data-theme="dark"] #chrome-autosum-sidebar {
-  box-shadow: 2px 0 12px rgba(0,0,0,0.2);
-}
-
-[data-theme="dark"] .autosum-loading-spinner {
-  border-color: var(--border);
-  border-top-color: var(--tx);
+#chrome-autosum-sidebar[data-theme="dark"] {
+  --bg:      #1C1B1A;
+  --bg-sub:  #282726;
+  --border:  #403E3C;
+  --tx:      #CECDC3;
+  --tx-2:    #878580;
+  --tx-3:    #575653;
+  --tx-4:    #403E3C;
+  --red:     #D14D41;
+  --cyan:    #3AA99F;
+  box-shadow: 2px 0 16px rgba(0,0,0,0.25);
 }
