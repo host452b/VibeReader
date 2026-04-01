@@ -33,6 +33,9 @@ build/
 # logs
 *.log
 
+# internal design docs
+docs/superpowers/
+
 # secrets (should never be committed)
 .env
 .env.*

@@ -1,28 +1,31 @@
-# VibeReader — AI Page Analyst & Summarizer
+# VibeReader — AI Page Analyst & Summarizer (Chrome Extension)
 
-> **Read any webpage with AI.** Instant summaries, deep-dive analysis, smart content chunking — with 31 AI providers and EN/JA/ZH language support.
+> **Read any webpage with AI.** A Chrome extension for instant page summaries, deep-dive analysis, and smart content chunking — with 31 AI providers, local LLM support, and EN/JA/ZH language support.
+
+**[Chrome Web Store](https://chrome.google.com/webstore)** | **[Privacy Policy](privacy.html)** | **[中文文档](README_ZH.md)**
 
 ---
 
-## Overview
+## What Is VibeReader?
 
-VibeReader is a Chrome extension that turns your browser into an AI-powered reading assistant. It extracts the visible content from any webpage and sends it to a large language model for analysis — so you can understand long pages in seconds instead of minutes.
+VibeReader is a **Chrome extension** that turns your browser into an **AI-powered reading assistant**. It extracts the visible content from any webpage and sends it to a large language model for analysis — so you can understand long pages in seconds instead of minutes.
 
-Unlike generic chatbots that require you to copy-paste text, VibeReader works **in-place**: open the side panel on any page, ask a question, and get AI-powered insights with full page context — no tab-switching, no pasting.
+Unlike generic AI chatbots that require copy-pasting text, VibeReader works **in-place**: open the side panel on any page, ask a question, and get AI-powered insights with full page context — no tab-switching, no pasting.
 
-### Why VibeReader?
+### Key Features
 
-- **Instant Summaries** — Auto-generate bullet-point digests on every page load (EN/JA/ZH)
-- **Ask Anything** — Query the current page like a document: *"What are the breaking changes?"*, *"Summarize this bug report"*
-- **Multi-Tab Context** — Load content from multiple tabs at once via a floating tab picker, merged with page separators
-- **Smart Chunking** — Pages too long for the model? VibeReader automatically splits, analyzes, and merges — no manual intervention
-- **15 Professional Templates** — DevOps RCA, Code Review, Security Audit, Legal Analysis, Financial Analysis, News Fact-Check, and more — all in EN/JA/ZH
-- **17 AI Providers** — Ollama, LM Studio, DeepSeek, SiliconFlow, Moonshot, Zhipu, Tongyi, Doubao, OpenAI, Claude, Gemini, Groq, Mistral, xAI, OpenRouter, Together AI, plus any custom endpoint
+- **AI Page Summarizer** — Auto-generate bullet-point digests on every page load (EN/JA/ZH)
+- **Ask Anything About Any Page** — Query the current page like a document: *"What are the breaking changes?"*, *"Summarize this bug report"*
+- **Multi-Tab AI Analysis** — Load content from multiple tabs at once via a floating tab picker, merged with page separators
+- **Smart Content Chunking** — Pages too long for the model? VibeReader automatically splits, analyzes, and merges — no manual intervention
+- **15 Professional Prompt Templates** — DevOps RCA, Code Review, Security Audit, Legal Analysis, Financial Analysis, News Fact-Check, and more — all in EN/JA/ZH
+- **31 AI Providers** — Ollama, LM Studio, DeepSeek, SiliconFlow, Moonshot, Zhipu, Tongyi, Doubao, OpenAI, Claude, Gemini, Groq, Mistral, xAI, OpenRouter, Together AI, and more — plus any custom endpoint
+- **Local LLM First** — Run Ollama or LM Studio locally; zero data leaves your device
 - **Zero Build Step** — Pure vanilla JS, no npm, no bundler. Load unpacked and go
 
 ---
 
-## Key Features
+## Feature Comparison
 
 | Feature | How It Works |
 |---|---|
@@ -34,71 +37,6 @@ Unlike generic chatbots that require you to copy-paste text, VibeReader works **
 | **15 Prompt Templates** | Professional presets for tech, legal, finance, news, research, writing, product, data — users can create custom templates in Options. |
 | **Multi-Turn Context** | Each follow-up carries the previous AI response, enabling deeper conversational analysis. |
 | **4 API Formats** | OpenAI Chat Completions, Anthropic Messages, OpenAI Responses API, and Azure OpenAI — auto-routed by provider. |
-| **Request Timer** | Live elapsed time + ETA prediction based on rolling average of past 10 calls. |
-| **i18n (EN/JA/ZH)** | Full UI labels, templates, system prompts, and auto-summary prompts in English, Japanese, and Chinese. |
-| **HUD Status Indicator** | Cycles through STANDBY → IDLE → READY → SYS:OK → AWAIT during idle; shows LIVE with VU meter animation during API calls; DONE on completion. |
-| **Retry with Backoff** | Transient errors (429/5xx/network) trigger exponential retry (2s→4s→8s) with UI feedback. |
-| **Custom System Prompt** | Configurable system prompt with dynamic placeholders (page title, core content, timestamp, user question) — auto-filled at runtime. |
-
----
-
-## How It Works
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                      MANUAL ANALYSIS FLOW                           │
-│                                                                     │
-│  [User clicks extension]                                            │
-│       │                                                             │
-│       ▼                                                             │
-│  [Side Panel opens] ──→ [content.js injected into active tab]       │
-│       │                        │                                    │
-│       │  sends "getPageContent"│  returns visible text + meta       │
-│       ▼                        ▼                                    │
-│  [Page Context loaded into RAW_TXT editor]                          │
-│       │                                                             │
-│       ├── [+ Add Page] → floating tab picker                        │
-│       │       │  select tabs → parallel extraction                  │
-│       │       │  inline fallback → merge with separators            │
-│       │       ▼                                                     │
-│       │  [Multi-tab context in RAW_TXT]                             │
-│       │                                                             │
-│       │  user types question + selects template                     │
-│       ▼                                                             │
-│  [Build Messages: system prompt + full context + user query]        │
-│       │                                                             │
-│       ▼                                                             │
-│  [API Call: route by provider + format]                              │
-│       │                                                             │
-│       │──── Context overflow? ────┐                                 │
-│       │                           ▼                                 │
-│       │                  [Binary Split Strategy]                    │
-│       │                  split at natural boundaries → analyze      │
-│       │                  chunks sequentially → synthesize            │
-│       │                           │                                 │
-│       ▼                           ▼                                 │
-│  [Render response with copy button + root_cause highlights]         │
-└─────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────┐
-│                      AUTO SUMMARY FLOW                              │
-│                                                                     │
-│  [Tab loads new URL]                                                │
-│       │                                                             │
-│       ▼                                                             │
-│  [background.js checks autoSumEnabled + URL change]                 │
-│       │                                                             │
-│       ▼                                                             │
-│  [Inject autosum.js + autosum.css → show loading sidebar]           │
-│       │                                                             │
-│       ▼                                                             │
-│  [Extract page content → truncate to 8K chars → call AI]            │
-│       │                                                             │
-│       ▼                                                             │
-│  [Localized summary displayed in collapsible sidebar]               │
-│  [Retry button on failure]                                          │
-└─────────────────────────────────────────────────────────────────────┘
-```
 
 ---
 
@@ -114,14 +52,14 @@ Unlike generic chatbots that require you to copy-paste text, VibeReader works **
 
 ### Steps
 
-1. **Download / Clone** the `vibe_reader` folder to your local machine.
+1. **Download / Clone** the repository to your local machine.
 
 2. **Load as Unpacked Extension**
    - Open `chrome://extensions/`
    - Enable **Developer mode** (toggle in top-right)
-   - Click **Load unpacked** → select the `vibe_reader` folder
+   - Click **Load unpacked** → select the project folder
 
-3. **Configure API Settings**
+3. **Configure AI Settings**
    - Click the extension icon → right-click → **Options**
    - Select your **Provider** (local or cloud)
    - Base URL and models are auto-filled per provider; enter **API Key** if required
@@ -136,7 +74,6 @@ Unlike generic chatbots that require you to copy-paste text, VibeReader works **
 ### Notes
 
 - No `npm install` or build step required — pure vanilla JS.
-- The `icons/` folder with `icon16.png`, `icon48.png`, `icon128.png` must exist for the extension icon to display.
 - All settings sync across Chrome profiles via `chrome.storage.sync`.
 
 ---
@@ -145,7 +82,7 @@ Unlike generic chatbots that require you to copy-paste text, VibeReader works **
 
 | Category | Providers |
 |---|---|
-| **Local** | Ollama, LM Studio |
+| **Local LLM** | Ollama, LM Studio |
 | **China Cloud** | DeepSeek, SiliconFlow, Moonshot / Kimi, Zhipu AI, Alibaba Tongyi (DashScope), Doubao / Volcengine |
 | **International Cloud** | OpenAI, Anthropic Claude, Google Gemini, Groq, Mistral AI, xAI Grok |
 | **Routers / Aggregators** | OpenRouter (200+ models), Together AI |
@@ -179,29 +116,25 @@ All templates are fully localized in EN/JA/ZH:
 
 ## Use Cases
 
-### 1. Triage Production Incidents
+### Triage Production Incidents
 
 Open a CI/CD failure page or Kubernetes event log → select the **DevOps Root Cause** template → click **SEND**. The AI identifies the root cause, ranks potential causes, and suggests validation steps.
 
-### 2. Speed-Read Long Documentation
+### Speed-Read Long Documentation
 
 Reading a 20-page API reference or RFC? Enable **Auto Summary** for a hands-free localized overview on every page load. Or open the side panel and ask: *"What are the breaking changes in this document?"*
 
-### 3. Analyze Bug Reports
+### Analyze Bug Reports
 
-Open a bug report on Jira, GitHub Issues, or NVBugs → the extension extracts all visible text (description, comments, metadata) → ask: *"Summarize the bug and suggest which component to investigate."*
+Open a bug report on Jira, GitHub Issues, or any tracker → the extension extracts all visible text (description, comments, metadata) → ask: *"Summarize the bug and suggest which component to investigate."*
 
-### 4. Cross-Tab Research
+### Cross-Tab Research
 
 Need to compare information across multiple pages? Click **[+ Add Page]** to open the tab picker → select the tabs you want to analyze → their content is merged into a single context. Ask: *"Compare the approaches described in these pages."*
 
-### 5. Repeatable Workflows via Templates
+### Handle Extremely Long Pages
 
-Create a custom template (e.g., *"OWASP Top 10 Checklist"* or *"Code Review Checklist"*) in Options. Navigate to each target page → select the template → send. Consistent analysis every time.
-
-### 6. Handle Extremely Long Pages
-
-Pages with massive logs or thread discussions that exceed model context limits are handled automatically. The **Binary Split Strategy** splits content at natural boundaries (2→4→8→16 chunks), analyzes each, then merges into a unified response. A visual progress bar shows per-chunk timing and estimated time remaining.
+Pages with massive logs or thread discussions that exceed model context limits are handled automatically. The **Binary Split Strategy** splits content at natural boundaries (2→4→8→16 chunks), analyzes each, then merges into a unified response.
 
 ---
 
@@ -223,12 +156,13 @@ vibe_reader/
 ├── autosum.css            # Auto summary sidebar styles
 ├── tab-picker.html        # Multi-tab picker floating window
 ├── tab-picker.js          # Tab picker logic: list, select, load
+├── privacy.html           # Privacy policy (EN/JA/ZH)
 ├── build.sh               # Build & lint script (validate, check, package)
-├── icons/
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
-└── README.md
+├── marked.min.js          # Markdown renderer
+└── icons/
+    ├── icon16.png
+    ├── icon48.png
+    └── icon128.png
 ```
 
 ---
@@ -262,7 +196,20 @@ The build pipeline runs 9 checks in sequence:
 | 8. Code hygiene | Scan for `console.log`, `debugger`, `eval()`, hardcoded API keys, `TODO/FIXME` |
 | 9. File size sanity | Warn if any single file > 500 KB or total > 2 MB |
 
-On success, outputs `VibeReader-v{version}.zip` (version read from `manifest.json`). The zip excludes `.git`, `.DS_Store`, `README.md`, `build.sh`, and existing zip files.
+On success, outputs `VibeReader-v{version}.zip` (version read from `manifest.json`).
+
+---
+
+## Privacy & Security
+
+- **Local-first**: Ollama and LM Studio process everything on your machine
+- **API keys stored locally** — `chrome.storage.local`, never synced to cloud
+- **No analytics, no tracking, no telemetry**
+- **You choose** when and where your data is sent
+- **Full transparency**: review extracted content in the RAW_TXT editor before any API call
+- **Open source**: inspect every line of code
+
+See [privacy.html](privacy.html) for the full privacy policy (EN/JA/ZH).
 
 ---
 
@@ -275,12 +222,13 @@ On success, outputs `VibeReader-v{version}.zip` (version read from `manifest.jso
 | UI | Editorial minimal CSS (shadcn/ui-inspired), Inter + Noto Sans JP/SC fonts |
 | i18n | English, Japanese, Chinese — UI, templates, system prompts, auto-summary prompts |
 | API Formats | OpenAI Chat Completions, Anthropic Messages, OpenAI Responses |
-| Providers | 16 built-in + custom endpoint (local-first: Ollama, LM Studio) |
-| Storage | `chrome.storage.sync` (settings persist across devices) |
-| Performance | Debounced rendering, virtual overlay, GPU-compositable scroll sync, rAF-batched scroll |
+| Providers | 16 built-in + 15 custom-configured (local-first: Ollama, LM Studio) |
+| Storage | `chrome.storage.sync` (settings) + `chrome.storage.local` (API keys) |
 
 ---
 
-## Version
+## License
 
-**v1.4** · Manifest V3 · Side Panel Interface
+Open source. No account required. No subscriptions.
+
+**v1.5** · Manifest V3 · Side Panel Interface
