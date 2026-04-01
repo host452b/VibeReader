@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Flexoki palette ── */
+:root {
+  --bg:      #FAFAF7;
+  --bg-sub:  #F5F4F0;
+  --border:  #E8E7E2;
+  --tx:      #343331;
+  --tx-2:    #6F6E69;
+  --tx-3:    #B7B5AC;
+  --orange:  #BC5215;
+  --blue:    #205EA6;
+  --green:   #66800B;
+  --cyan:    #24837B;
+  --purple:  #5E409D;
+  --red:     #AF3029;
+  --yellow:  #AD8301;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #000;
+}
+
+.asset { position: relative; overflow: hidden; }
+
+/* ============================================================
+   SMALL PROMO TILE  440 x 280
+   ============================================================ */
+#tile-small {
+  width: 440px; height: 280px;
+  background: linear-gradient(135deg, #100F0F 0%, #282726 100%);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  color: #FAFAF7;
+}
+#tile-small .logo-row {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 18px;
+}
+#tile-small .logo-icon {
+  width: 52px; height: 52px; background: var(--orange); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; font-weight: 700; color: #fff;
+}
+#tile-small .logo-text {
+  font-size: 26px; font-weight: 700; letter-spacing: -0.5px;
+}
+#tile-small .tagline {
+  font-size: 14px; color: #B7B5AC; text-align: center; margin-bottom: 22px; max-width: 360px; line-height: 1.5;
+}
+#tile-small .badges {
+  display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+}
+#tile-small .badge {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px; padding: 5px 10px; font-size: 11px; color: #CECDC3;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   MARQUEE TILE  1400 x 560
+   ============================================================ */
+#tile-marquee {
+  width: 1400px; height: 560px;
+  background: linear-gradient(135deg, #100F0F 0%, #282726 50%, #343331 100%);
+  display: flex; color: #FAFAF7; position: relative;
+}
+#tile-marquee .left {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  padding: 60px 50px 60px 70px;
+}
+#tile-marquee .left .logo-row {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+}
+#tile-marquee .left .logo-icon {
+  width: 56px; height: 56px; background: var(--orange); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; font-weight: 700; color: #fff;
+}
+#tile-marquee .left .logo-text {
+  font-size: 32px; font-weight: 700; letter-spacing: -0.5px;
+}
+#tile-marquee .left .tagline {
+  font-size: 18px; color: #B7B5AC; line-height: 1.6; margin-bottom: 32px; max-width: 480px;
+}
+#tile-marquee .left .features {
+  display: flex; flex-direction: column; gap: 10px;
+}
+#tile-marquee .left .feat {
+  display: flex; align-items: center; gap: 10px; font-size: 15px; color: #CECDC3;
+}
+#tile-marquee .left .feat .dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+#tile-marquee .right {
+  flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px;
+}
+#tile-marquee .mockup {
+  width: 440px; height: 440px; background: var(--bg); border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5); overflow: hidden; display: flex; flex-direction: column;
+}
+#tile-marquee .mockup .mock-header {
+  background: #F5F4F0; border-bottom: 1px solid var(--border);
+  padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+}
+#tile-marquee .mockup .mock-brand {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--tx-2);
+}
+#tile-marquee .mockup .mock-badge {
+  font-size: 9px; background: var(--orange); color: #fff; padding: 2px 6px; border-radius: 4px;
+}
+#tile-marquee .mockup .mock-body { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+#tile-marquee .mockup .mock-q {
+  background: var(--bg-sub); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--tx); align-self: flex-end; max-width: 80%;
+}
+#tile-marquee .mockup .mock-a {
+  background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 12px; color: var(--tx-2); line-height: 1.6;
+}
+#tile-marquee .mockup .mock-a strong { color: var(--tx); }
+#tile-marquee .mockup .mock-input {
+  border-top: 1px solid var(--border); padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+}
+#tile-marquee .mockup .mock-input-box {
+  flex: 1; background: var(--bg-sub); border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px 12px; font-size: 12px; color: var(--tx-3);
+}
+#tile-marquee .mockup .mock-send {
+  background: var(--tx); color: #fff; border: none; border-radius: 6px; padding: 8px 14px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   SCREENSHOT 1 — Main Chat Interface  1280 x 800
+   ============================================================ */
+.screenshot {
+  width: 1280px; height: 800px; display: flex; background: #E8E7E2;
+}
+.ss-browser {
+  flex: 1; display: flex; flex-direction: column;
+}
+.ss-chrome-bar {
+  background: #F5F4F0; height: 40px; display: flex; align-items: center; padding: 0 16px; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.ss-chrome-dot { width: 12px; height: 12px; border-radius: 50%; }
+.ss-chrome-dot.r { background: #AF3029; }
+.ss-chrome-dot.y { background: #AD8301; }
+.ss-chrome-dot.g { background: #66800B; }
+.ss-chrome-tab {
+  margin-left: 16px; background: var(--bg); padding: 6px 20px; border-radius: 8px 8px 0 0;
+  font-size: 12px; color: var(--tx-2); border: 1px solid var(--border); border-bottom: none;
+}
+.ss-chrome-url {
+  margin-left: 16px; flex: 1; background: var(--bg); border-radius: 20px; padding: 6px 14px;
+  font-size: 11px; color: var(--tx-3); border: 1px solid var(--border);
+}
+.ss-page {
+  flex: 1; background: #fff; padding: 40px 60px; overflow: hidden;
+}
+.ss-page h1 { font-size: 22px; color: var(--tx); margin-bottom: 12px; }
+.ss-page p { font-size: 13px; color: var(--tx-2); line-height: 1.7; margin-bottom: 10px; }
+.ss-page .code-block {
+  background: #282726; color: #CECDC3; border-radius: 8px; padding: 14px 18px;
+  font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.6; margin: 14px 0;
+}
+
+/* Side panel */
+.ss-panel {
+  width: 400px; background: var(--bg); border-left: 1px solid var(--border);
+  display: flex; flex-direction: column;
+}
+.ss-panel-header {
+  background: var(--bg-sub); border-bottom: 1px solid var(--border);
+  padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
+}
+.ss-panel-brand {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--tx-2);
+}
+.ss-panel-model {
+  font-size: 9px; color: var(--tx-3); letter-spacing: 0.5px;
+}
+.ss-panel .tuner {
+  background: var(--bg-sub); border-bottom: 1px solid var(--border);
+  padding: 8px 16px; display: flex; align-items: center; gap: 8px;
+}
+.ss-panel .tuner .vu { display: flex; gap: 2px; align-items: flex-end; height: 16px; }
+.ss-panel .tuner .vu-b { width: 4px; background: var(--green); border-radius: 1px; }
+.ss-panel .tuner .template-sel {
+  font-size: 10px; color: var(--tx-2); background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: 3px 8px;
+}
+.ss-panel .chat { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+.ss-panel .chat .user-msg {
+  align-self: flex-end; background: var(--bg-sub); border-radius: 12px 12px 2px 12px;
+  padding: 10px 14px; font-size: 13px; color: var(--tx); max-width: 85%;
+}
+.ss-panel .chat .ai-msg {
+  background: #fff; border: 1px solid var(--border); border-radius: 2px 12px 12px 12px;
+  padding: 14px; font-size: 12px; color: var(--tx-2); line-height: 1.65; max-width: 95%;
+}
+.ss-panel .chat .ai-msg strong { color: var(--tx); }
+.ss-panel .chat .ai-msg .highlight {
+  background: #FAEBDB; border-left: 3px solid var(--orange); padding: 6px 10px; margin: 8px 0;
+  border-radius: 0 4px 4px 0; font-size: 12px; color: var(--tx);
+}
+.ss-panel .input-area {
+  border-top: 1px solid var(--border); padding: 12px 16px; display: flex; gap: 8px; align-items: center;
+}
+.ss-panel .input-box {
+  flex: 1; background: var(--bg-sub); border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 14px; font-size: 12px; color: var(--tx-3);
+}
+.ss-panel .send-btn {
+  background: var(--tx); color: #fff; border: none; border-radius: 8px;
+  padding: 10px 16px; font-size: 11px; font-weight: 700; letter-spacing: 1px;
+}
+
+/* ============================================================
+   SCREENSHOT 2 — Auto Summary Sidebar  1280 x 800
+   ============================================================ */
+.ss-autosum-sidebar {
+  position: absolute; top: 80px; right: 20px; width: 340px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12); overflow: hidden; z-index: 10;
+}
+.ss-autosum-header {
+  background: var(--bg-sub); padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.ss-autosum-header .label { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--orange); }
+.ss-autosum-header .close-x { font-size: 14px; color: var(--tx-3); cursor: pointer; }
+.ss-autosum-body { padding: 14px; font-size: 12px; color: var(--tx-2); line-height: 1.7; }
+.ss-autosum-body ul { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.ss-autosum-body li { color: var(--tx); }
+
+/* ============================================================
+   SCREENSHOT 3 — RAW_TXT Editor  1280 x 800
+   ============================================================ */
+.ss-raw-panel {
+  width: 480px; background: #282726; display: flex; flex-direction: column; border-right: 1px solid #403E3C;
+}
+.ss-raw-header {
+  background: #343331; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid #403E3C;
+}
+.ss-raw-header span { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--orange); font-family: monospace; }
+.ss-raw-header .stats { font-size: 10px; color: #6F6E69; font-family: monospace; }
+.ss-raw-search {
+  background: #343331; padding: 6px 16px; display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid #403E3C;
+}
+.ss-raw-search input {
+  flex: 1; background: #282726; border: 1px solid #403E3C; border-radius: 4px;
+  padding: 5px 10px; font-size: 11px; color: #CECDC3; font-family: monospace;
+}
+.ss-raw-search .nav-btn {
+  background: none; border: 1px solid #403E3C; border-radius: 3px; color: #6F6E69;
+  padding: 2px 6px; font-size: 10px;
+}
+.ss-raw-search .count { font-size: 10px; color: #6F6E69; font-family: monospace; }
+.ss-raw-content {
+  flex: 1; padding: 16px; font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px; line-height: 1.7; color: #CECDC3; overflow: hidden; position: relative;
+}
+.ss-raw-content .marker {
+  position: absolute; right: 8px; color: #403E3C; font-size: 9px; letter-spacing: 1px;
+}
+.ss-raw-content .search-hl { background: rgba(173,131,1,0.3); border-radius: 2px; padding: 0 2px; }
+
+/* ============================================================
+   SCREENSHOT 4 — Tab Picker  1280 x 800
+   ============================================================ */
+.ss-tab-picker {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 440px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.2); overflow: hidden; z-index: 20;
+}
+.ss-tp-header {
+  background: var(--bg-sub); padding: 14px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ss-tp-header .title { font-size: 13px; font-weight: 700; color: var(--tx); }
+.ss-tp-header .selected { font-size: 11px; color: var(--orange); font-weight: 600; }
+.ss-tp-list { padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+.ss-tp-item {
+  padding: 10px 14px; border-radius: 8px; display: flex; align-items: center; gap: 10px;
+  font-size: 12px; color: var(--tx);
+}
+.ss-tp-item.selected { background: #FAEBDB; }
+.ss-tp-item .favicon { width: 16px; height: 16px; background: var(--border); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--tx-2); }
+.ss-tp-item .check { width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 4px; margin-left: auto; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+.ss-tp-item.selected .check { background: var(--orange); border-color: var(--orange); color: #fff; }
+.ss-tp-footer {
+  padding: 12px 18px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px;
+}
+.ss-tp-footer button {
+  border-radius: 6px; padding: 8px 16px; font-size: 12px; font-weight: 600; border: none; cursor: pointer;
+}
+.ss-tp-footer .cancel { background: var(--bg-sub); color: var(--tx-2); border: 1px solid var(--border); }
+.ss-tp-footer .load { background: var(--tx); color: #fff; }
+
+/* ============================================================
+   SCREENSHOT 5 — Settings Page  1280 x 800
+   ============================================================ */
+.ss-settings {
+  width: 1280px; height: 800px; background: var(--bg); display: flex; flex-direction: column;
+}
+.ss-settings-header {
+  background: var(--bg-sub); border-bottom: 1px solid var(--border);
+  padding: 20px 40px; display: flex; align-items: center; gap: 14px;
+}
+.ss-settings-header .s-icon {
+  width: 36px; height: 36px; background: var(--orange); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700; color: #fff;
+}
+.ss-settings-header .s-title { font-size: 20px; font-weight: 700; color: var(--tx); }
+.ss-settings-header .s-ver { font-size: 12px; color: var(--tx-3); margin-left: 8px; }
+.ss-settings-body {
+  flex: 1; display: flex; padding: 30px 40px; gap: 40px; overflow: hidden;
+}
+.ss-settings-col { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+.ss-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; overflow: hidden;
+}
+.ss-card h3 {
+  font-size: 12px; font-weight: 700; letter-spacing: 1px; color: var(--tx-2);
+  text-transform: uppercase; margin-bottom: 14px;
+}
+.ss-field { margin-bottom: 12px; }
+.ss-field label { display: block; font-size: 11px; color: var(--tx-2); margin-bottom: 4px; font-weight: 600; }
+.ss-field select, .ss-field input {
+  width: 100%; padding: 8px 12px; font-size: 13px; color: var(--tx); background: var(--bg-sub);
+  border: 1px solid var(--border); border-radius: 6px;
+}
+.ss-provider-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+}
+.ss-provider-chip {
+  background: var(--bg-sub); border: 1px solid var(--border); border-radius: 6px;
+  padding: 6px 10px; font-size: 11px; color: var(--tx-2); text-align: center;
+}
+.ss-provider-chip.active { background: #FAEBDB; border-color: var(--orange); color: var(--orange); font-weight: 600; }
+.ss-template-list { display: flex; flex-direction: column; gap: 6px; }
+.ss-template-item {
+  padding: 8px 12px; background: var(--bg-sub); border-radius: 6px; font-size: 12px; color: var(--tx);
+  display: flex; align-items: center; gap: 8px;
+}
+.ss-template-item .t-icon { font-size: 14px; }
+.ss-toggle-row {
+  display: flex; align-items: center; justify-content: space-between; padding: 6px 0;
+}
+.ss-toggle-row .t-label { font-size: 12px; color: var(--tx); }
+.ss-toggle {
+  width: 36px; height: 20px; background: var(--green); border-radius: 10px; position: relative;
+}
+.ss-toggle::after {
+  content: ''; position: absolute; top: 2px; right: 2px; width: 16px; height: 16px;
+  background: #fff; border-radius: 50%;
+}
+.ss-toggle.off { background: var(--border); }
+.ss-toggle.off::after { left: 2px; right: auto; }
+
+/* ── overlay for screenshots with backdrop ── */
+.ss-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); z-index: 15; }
+
+/* ── icon ── */
+#store-icon {
+  width: 128px; height: 128px; background: var(--orange); border-radius: 28px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 72px; font-weight: 700; color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     STORE ICON 128x128
+     ════════════════════════════════════════════════════════════ -->
+<div id="store-icon" class="asset">V</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SMALL PROMO TILE 440x280
+     ════════════════════════════════════════════════════════════ -->
+<div id="tile-small" class="asset">
+  <div class="logo-row">
+    <div class="logo-icon">V</div>
+    <div class="logo-text">VibeReader</div>
+  </div>
+  <div class="tagline">Read any webpage with AI. Instant summaries, deep analysis, smart chunking.</div>
+  <div class="badges">
+    <div class="badge">31 AI Providers</div>
+    <div class="badge">Local LLM</div>
+    <div class="badge">Auto Summary</div>
+    <div class="badge">15 Templates</div>
+    <div class="badge">EN / JA / ZH</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     MARQUEE TILE 1400x560
+     ════════════════════════════════════════════════════════════ -->
+<div id="tile-marquee" class="asset">
+  <div class="left">
+    <div class="logo-row">
+      <div class="logo-icon">V</div>
+      <div class="logo-text">VibeReader</div>
+    </div>
+    <div class="tagline">AI-powered reading assistant for Chrome.<br>Summarize, analyze, and query any webpage with 31 AI providers.</div>
+    <div class="features">
+      <div class="feat"><div class="dot" style="background:var(--orange)"></div>One-click page analysis &amp; auto summary</div>
+      <div class="feat"><div class="dot" style="background:var(--green)"></div>Local LLM first &mdash; Ollama &amp; LM Studio</div>
+      <div class="feat"><div class="dot" style="background:var(--blue)"></div>Smart chunking for long pages</div>
+      <div class="feat"><div class="dot" style="background:var(--cyan)"></div>Multi-tab context merging</div>
+      <div class="feat"><div class="dot" style="background:var(--purple)"></div>15 professional templates (EN/JA/ZH)</div>
+      <div class="feat"><div class="dot" style="background:var(--yellow)"></div>Privacy-first &mdash; no tracking, no telemetry</div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="mockup">
+      <div class="mock-header">
+        <span class="mock-brand">VIBEREADER</span>
+        <span class="mock-badge">LIVE</span>
+        <span style="flex:1"></span>
+        <span style="font-size:9px;color:#6F6E69;">MODEL VR-MK3</span>
+      </div>
+      <div class="mock-body">
+        <div class="mock-q">Summarize the key changes in this release</div>
+        <div class="mock-a">
+          <strong>Key Changes in v2.4:</strong><br><br>
+          1. <strong>Breaking:</strong> Auth middleware now requires JWT tokens instead of session cookies<br>
+          2. <strong>New:</strong> Batch processing endpoint for bulk operations<br>
+          3. <strong>Fix:</strong> Race condition in concurrent writes resolved<br>
+          4. <strong>Perf:</strong> 40% reduction in cold start latency
+        </div>
+      </div>
+      <div class="mock-input">
+        <div class="mock-input-box">Ask a follow-up question...</div>
+        <div class="mock-send">SEND</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SCREENSHOT 1 — Main Chat Interface  1280 x 800
+     ════════════════════════════════════════════════════════════ -->
+<div id="ss-chat" class="asset screenshot">
+  <div class="ss-browser">
+    <div class="ss-chrome-bar">
+      <div class="ss-chrome-dot r"></div>
+      <div class="ss-chrome-dot y"></div>
+      <div class="ss-chrome-dot g"></div>
+      <div class="ss-chrome-tab">Release Notes v2.4</div>
+      <div class="ss-chrome-url">https://docs.example.com/releases/v2.4</div>
+    </div>
+    <div class="ss-page">
+      <h1>Release Notes v2.4</h1>
+      <p>This release includes several breaking changes, new features, and performance improvements. Please review carefully before upgrading.</p>
+      <h2 style="font-size:17px;color:var(--tx);margin:16px 0 10px;">Breaking Changes</h2>
+      <p>The authentication middleware has been completely rewritten. Session-based auth is deprecated in favor of JWT tokens. All existing sessions will be invalidated on upgrade.</p>
+      <div class="code-block">
+// Before (v2.3)<br>
+app.use(sessionAuth({ secret: process.env.SESSION_KEY }))<br><br>
+// After (v2.4)<br>
+app.use(jwtAuth({ issuer: 'api.example.com' }))
+      </div>
+      <h2 style="font-size:17px;color:var(--tx);margin:16px 0 10px;">New Features</h2>
+      <p>Added batch processing endpoint at <code style="background:var(--bg-sub);padding:2px 6px;border-radius:3px;font-size:12px;">/api/v2/batch</code> for bulk operations. Supports up to 1000 items per request with automatic retry on transient failures.</p>
+      <p>New webhook system for real-time notifications. Configure endpoints in the dashboard under Settings &gt; Integrations &gt; Webhooks.</p>
+      <h2 style="font-size:17px;color:var(--tx);margin:16px 0 10px;">Performance</h2>
+      <p>Cold start latency reduced by 40% through lazy initialization of non-critical services. Database connection pooling now uses adaptive sizing based on load patterns.</p>
+    </div>
+  </div>
+  <div class="ss-panel">
+    <div class="ss-panel-header">
+      <div>
+        <div class="ss-panel-brand">VIBEREADER</div>
+        <div class="ss-panel-model">MODEL VR-MK3 &middot; SN:2026-VRD</div>
+      </div>
+      <div style="font-size:9px;color:var(--green);font-weight:700;letter-spacing:1px;">SYS:OK</div>
+    </div>
+    <div class="tuner">
+      <div class="vu">
+        <div class="vu-b" style="height:6px"></div>
+        <div class="vu-b" style="height:10px"></div>
+        <div class="vu-b" style="height:14px"></div>
+        <div class="vu-b" style="height:10px"></div>
+        <div class="vu-b" style="height:8px"></div>
+      </div>
+      <div class="template-sel">MANUAL MODE</div>
+      <div style="flex:1"></div>
+      <div style="font-size:9px;color:var(--tx-3);font-family:monospace;">3.2s</div>
+    </div>
+    <div class="chat">
+      <div class="user-msg">Summarize the key changes and flag any breaking changes</div>
+      <div class="ai-msg">
+        <strong>Release v2.4 Summary:</strong><br><br>
+        <div class="highlight">
+          <strong>Breaking:</strong> Auth middleware migrated from session cookies to JWT tokens. All existing sessions invalidated on upgrade.
+        </div>
+        <strong>New Features:</strong><br>
+        &bull; Batch processing endpoint (<code style="font-size:11px;background:var(--bg-sub);padding:1px 4px;border-radius:2px;">/api/v2/batch</code>) &mdash; up to 1K items/request<br>
+        &bull; Real-time webhook notification system<br><br>
+        <strong>Performance:</strong><br>
+        &bull; 40% cold start reduction via lazy init<br>
+        &bull; Adaptive DB connection pool sizing<br><br>
+        <strong>Bug Fixes:</strong><br>
+        &bull; Race condition in concurrent writes resolved<br>
+        &bull; Memory leak in long-running connections fixed
+      </div>
+    </div>
+    <div class="input-area">
+      <div class="input-box">Ask a follow-up question...</div>
+      <div class="send-btn">SEND</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SCREENSHOT 2 — Auto Summary  1280 x 800
+     ════════════════════════════════════════════════════════════ -->
+<div id="ss-autosum" class="asset screenshot" style="position:relative;">
+  <div class="ss-browser" style="flex:1;">
+    <div class="ss-chrome-bar">
+      <div class="ss-chrome-dot r"></div>
+      <div class="ss-chrome-dot y"></div>
+      <div class="ss-chrome-dot g"></div>
+      <div class="ss-chrome-tab">Kubernetes Troubleshooting</div>
+      <div class="ss-chrome-url">https://kubernetes.io/docs/tasks/debug/troubleshooting</div>
+    </div>
+    <div class="ss-page" style="position:relative;">
+      <h1>Troubleshooting Kubernetes Clusters</h1>
+      <p>This document provides an overview of troubleshooting approaches for Kubernetes clusters. It covers common issues, diagnostic tools, and resolution strategies for production environments.</p>
+      <h2 style="font-size:17px;color:var(--tx);margin:16px 0 10px;">Prerequisites</h2>
+      <p>Before troubleshooting, ensure you have <code style="background:var(--bg-sub);padding:2px 6px;border-radius:3px;font-size:12px;">kubectl</code> configured and access to the cluster's control plane. Verify your kubeconfig is pointing to the correct context.</p>
+      <h2 style="font-size:17px;color:var(--tx);margin:16px 0 10px;">Diagnosing Cluster Issues</h2>
+      <p>Start by checking the overall cluster health. Use <code style="background:var(--bg-sub);padding:2px 6px;border-radius:3px;font-size:12px;">kubectl cluster-info</code> to verify the cluster is reachable and <code style="background:var(--bg-sub);padding:2px 6px;border-radius:3px;font-size:12px;">kubectl get nodes</code> to check node status.</p>
+      <div class="code-block">
+$ kubectl get nodes<br>
+NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STATUS&nbsp;&nbsp;&nbsp;ROLES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AGE&nbsp;&nbsp;&nbsp;VERSION<br>
+node-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ready&nbsp;&nbsp;&nbsp;&nbsp;control-plane&nbsp;&nbsp;&nbsp;45d&nbsp;&nbsp;&nbsp;v1.29.2<br>
+node-2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ready&nbsp;&nbsp;&nbsp;&nbsp;&lt;none&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45d&nbsp;&nbsp;&nbsp;v1.29.2<br>
+node-3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NotReady&nbsp;&lt;none&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45d&nbsp;&nbsp;&nbsp;v1.29.2
+      </div>
+      <p>If a node shows <strong>NotReady</strong>, investigate the node conditions and events. Common causes include resource pressure (disk, memory, PID), network issues, or kubelet failures.</p>
+      <!-- Auto-summary sidebar -->
+      <div class="ss-autosum-sidebar">
+        <div class="ss-autosum-header">
+          <span class="label">AUTO SUMMARY</span>
+          <span class="close-x">&times;</span>
+        </div>
+        <div class="ss-autosum-body">
+          <ul>
+            <li><strong>Topic:</strong> Kubernetes cluster troubleshooting guide covering diagnostics, common failure modes, and resolution workflows</li>
+            <li><strong>Key Tools:</strong> kubectl cluster-info, kubectl get nodes, kubectl describe, kubectl logs</li>
+            <li><strong>Common Issues:</strong> Node NotReady states, resource pressure (disk/memory/PID), network failures, kubelet crashes</li>
+            <li><strong>Resolution Flow:</strong> Check cluster health &rarr; inspect node conditions &rarr; review pod events &rarr; examine logs &rarr; apply fix</li>
+            <li><strong>Best Practice:</strong> Always verify kubeconfig context before running diagnostic commands</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SCREENSHOT 3 — RAW_TXT Editor  1280 x 800
+     ════════════════════════════════════════════════════════════ -->
+<div id="ss-raw" class="asset screenshot">
+  <div class="ss-raw-panel">
+    <div class="ss-raw-header">
+      <span>:: RAW SIGNAL EDITOR ::</span>
+      <span class="stats">L:847 T:~12,400</span>
+    </div>
+    <div class="ss-raw-search">
+      <input type="text" value="authentication" readonly>
+      <button class="nav-btn">&blacktriangle;</button>
+      <button class="nav-btn">&blacktriangledown;</button>
+      <span class="count">3/7</span>
+    </div>
+    <div class="ss-raw-content">
+      <span class="marker" style="top:0">── 0k ──</span>
+      <div style="color:#6F6E69">/* Page: Release Notes v2.4 */</div>
+      <div style="color:#6F6E69">/* URL: docs.example.com/releases/v2.4 */</div>
+      <br>
+      <div>Release Notes v2.4</div>
+      <br>
+      <div>This release includes several breaking changes,</div>
+      <div>new features, and performance improvements.</div>
+      <br>
+      <div>Breaking Changes</div>
+      <div>================</div>
+      <br>
+      <div>The <span class="search-hl">authentication</span> middleware has been</div>
+      <div>completely rewritten. Session-based auth is</div>
+      <div>deprecated in favor of JWT tokens. All existing</div>
+      <div>sessions will be invalidated on upgrade.</div>
+      <br>
+      <div>Migration Guide:</div>
+      <div>  1. Update <span class="search-hl">authentication</span> config in .env</div>
+      <div>  2. Generate new JWT signing keys</div>
+      <div>  3. Deploy updated middleware</div>
+      <div>  4. Invalidate existing sessions</div>
+      <br>
+      <div>The new <span class="search-hl">authentication</span> system supports:</div>
+      <div>  - RS256 and ES256 algorithms</div>
+      <div>  - Refresh token rotation</div>
+      <div>  - Multi-tenant token scoping</div>
+      <span class="marker" style="top:360px">── 10k ──</span>
+      <br>
+      <div>New Features</div>
+      <div>================</div>
+      <br>
+      <div>Batch Processing</div>
+      <div>Added /api/v2/batch endpoint for bulk</div>
+      <div>operations. Supports up to 1000 items per</div>
+      <div>request with automatic retry on transient</div>
+      <div>failures. Rate limiting: 10 req/min.</div>
+      <br>
+      <div>Webhook System</div>
+      <div>Real-time notifications via configurable</div>
+      <div>webhook endpoints. Supports HMAC-SHA256</div>
+      <div>signature verification for security.</div>
+    </div>
+  </div>
+  <div class="ss-panel" style="flex:1;">
+    <div class="ss-panel-header">
+      <div>
+        <div class="ss-panel-brand">VIBEREADER</div>
+        <div class="ss-panel-model">MODEL VR-MK3 &middot; SN:2026-VRD</div>
+      </div>
+      <div style="font-size:9px;color:var(--green);font-weight:700;letter-spacing:1px;">READY</div>
+    </div>
+    <div class="tuner">
+      <div class="vu">
+        <div class="vu-b" style="height:4px"></div>
+        <div class="vu-b" style="height:6px"></div>
+        <div class="vu-b" style="height:4px"></div>
+        <div class="vu-b" style="height:3px"></div>
+        <div class="vu-b" style="height:4px"></div>
+      </div>
+      <div class="template-sel">CODE REVIEW</div>
+      <div style="flex:1"></div>
+    </div>
+    <div class="chat">
+      <div class="user-msg">Review the authentication migration for security risks</div>
+      <div class="ai-msg">
+        <strong>Security Review &mdash; Auth Migration:</strong><br><br>
+        <div class="highlight">
+          <strong>Risk:</strong> Session invalidation during migration creates a window where users are force-logged out.
+        </div>
+        <strong>Positive Changes:</strong><br>
+        &bull; JWT with RS256/ES256 is stronger than session cookies<br>
+        &bull; Refresh token rotation prevents token theft replay<br>
+        &bull; Multi-tenant scoping improves isolation<br><br>
+        <strong>Recommendations:</strong><br>
+        &bull; Add grace period for session&rarr;JWT migration<br>
+        &bull; Implement token revocation list for compromised tokens<br>
+        &bull; Ensure HMAC webhook signatures use constant-time comparison
+      </div>
+    </div>
+    <div class="input-area">
+      <div class="input-box">Ask a follow-up question...</div>
+      <div class="send-btn">SEND</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SCREENSHOT 4 — Multi-Tab Picker  1280 x 800
+     ════════════════════════════════════════════════════════════ -->
+<div id="ss-tabs" class="asset screenshot" style="position:relative;">
+  <div class="ss-browser" style="flex:1;">
+    <div class="ss-chrome-bar">
+      <div class="ss-chrome-dot r"></div>
+      <div class="ss-chrome-dot y"></div>
+      <div class="ss-chrome-dot g"></div>
+      <div class="ss-chrome-tab">API Documentation</div>
+      <div class="ss-chrome-url">https://docs.example.com/api/v2</div>
+    </div>
+    <div class="ss-page">
+      <h1>API Reference v2</h1>
+      <p>Complete reference for the Example Platform API. All endpoints require authentication via Bearer token in the Authorization header.</p>
+      <h2 style="font-size:17px;color:var(--tx);margin:16px 0 10px;">Base URL</h2>
+      <div class="code-block">https://api.example.com/v2</div>
+      <h2 style="font-size:17px;color:var(--tx);margin:16px 0 10px;">Authentication</h2>
+      <p>Include your API key in the Authorization header:</p>
+      <div class="code-block">Authorization: Bearer YOUR_API_KEY</div>
+      <h2 style="font-size:17px;color:var(--tx);margin:16px 0 10px;">Endpoints</h2>
+      <p><strong>POST /batch</strong> &mdash; Submit bulk operations</p>
+      <p><strong>GET /webhooks</strong> &mdash; List configured webhooks</p>
+      <p><strong>POST /webhooks</strong> &mdash; Register a new webhook endpoint</p>
+    </div>
+  </div>
+  <div class="ss-overlay"></div>
+  <div class="ss-tab-picker">
+    <div class="ss-tp-header">
+      <span class="title">Select Pages to Analyze</span>
+      <span class="selected">3 selected</span>
+    </div>
+    <div class="ss-tp-list">
+      <div class="ss-tp-item selected">
+        <div class="favicon">D</div>
+        <span>API Documentation &mdash; docs.example.com</span>
+        <div class="check">&check;</div>
+      </div>
+      <div class="ss-tp-item selected">
+        <div class="favicon">G</div>
+        <span>Release Notes v2.4 &mdash; docs.example.com</span>
+        <div class="check">&check;</div>
+      </div>
+      <div class="ss-tp-item selected">
+        <div class="favicon">J</div>
+        <span>Migration Guide &mdash; docs.example.com</span>
+        <div class="check">&check;</div>
+      </div>
+      <div class="ss-tp-item">
+        <div class="favicon">G</div>
+        <span>Google &mdash; google.com</span>
+        <div class="check"></div>
+      </div>
+      <div class="ss-tp-item">
+        <div class="favicon">Y</div>
+        <span>YouTube &mdash; youtube.com</span>
+        <div class="check"></div>
+      </div>
+    </div>
+    <div class="ss-tp-footer">
+      <button class="cancel">Cancel</button>
+      <button class="load">Load 3 Pages</button>
+    </div>
+  </div>
+  <div class="ss-panel" style="position:relative;z-index:16;">
+    <div class="ss-panel-header">
+      <div>
+        <div class="ss-panel-brand">VIBEREADER</div>
+        <div class="ss-panel-model">MODEL VR-MK3</div>
+      </div>
+      <div style="font-size:9px;color:var(--orange);font-weight:700;letter-spacing:1px;">3 PAGES</div>
+    </div>
+    <div class="tuner">
+      <div class="vu">
+        <div class="vu-b" style="height:4px"></div>
+        <div class="vu-b" style="height:8px"></div>
+        <div class="vu-b" style="height:6px"></div>
+      </div>
+      <div class="template-sel">MANUAL MODE</div>
+    </div>
+    <div class="chat">
+      <div style="font-size:11px;color:var(--tx-3);text-align:center;padding:8px;">
+        &bull; API Documentation (12.4K)<br>
+        &bull; Release Notes v2.4 (8.2K)<br>
+        &bull; Migration Guide (6.1K)<br>
+        <span style="color:var(--orange);font-weight:600;">Total: 26.7K chars</span>
+      </div>
+      <div class="user-msg">Compare the API docs with the release notes &mdash; are there any undocumented changes?</div>
+    </div>
+    <div class="input-area">
+      <div class="input-box">Ask about merged pages...</div>
+      <div class="send-btn">SEND</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SCREENSHOT 5 — Settings Page  1280 x 800
+     ════════════════════════════════════════════════════════════ -->
+<div id="ss-settings" class="asset ss-settings">
+  <div class="ss-settings-header">
+    <div class="s-icon">V</div>
+    <div class="s-title">VibeReader Settings</div>
+    <div class="s-ver">v1.5</div>
+  </div>
+  <div class="ss-settings-body">
+    <div class="ss-settings-col">
+      <div class="ss-card">
+        <h3>AI Provider</h3>
+        <div class="ss-provider-grid">
+          <div class="ss-provider-chip active">Ollama</div>
+          <div class="ss-provider-chip">LM Studio</div>
+          <div class="ss-provider-chip">DeepSeek</div>
+          <div class="ss-provider-chip">SiliconFlow</div>
+          <div class="ss-provider-chip">OpenAI</div>
+          <div class="ss-provider-chip">Claude</div>
+          <div class="ss-provider-chip">Gemini</div>
+          <div class="ss-provider-chip">Groq</div>
+          <div class="ss-provider-chip">Mistral</div>
+          <div class="ss-provider-chip">xAI Grok</div>
+          <div class="ss-provider-chip">OpenRouter</div>
+          <div class="ss-provider-chip">Together</div>
+          <div class="ss-provider-chip">Moonshot</div>
+          <div class="ss-provider-chip">Zhipu AI</div>
+          <div class="ss-provider-chip">Tongyi</div>
+          <div class="ss-provider-chip">Doubao</div>
+          <div class="ss-provider-chip">Custom</div>
+        </div>
+      </div>
+      <div class="ss-card">
+        <h3>Connection</h3>
+        <div class="ss-field">
+          <label>Base URL</label>
+          <input type="text" value="http://localhost:11434/v1" readonly>
+        </div>
+        <div class="ss-field">
+          <label>Model</label>
+          <select><option>llama3.2</option></select>
+        </div>
+        <div class="ss-field">
+          <label>API Format</label>
+          <select><option>OpenAI Chat Completions</option></select>
+        </div>
+        <div style="margin-top:8px;">
+          <button style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:8px 16px;font-size:12px;font-weight:600;">&check; Connected</button>
+        </div>
+      </div>
+    </div>
+    <div class="ss-settings-col">
+      <div class="ss-card">
+        <h3>Prompt Templates</h3>
+        <div class="ss-template-list">
+          <div class="ss-template-item"><span class="t-icon">&#9881;</span> DevOps Root Cause</div>
+          <div class="ss-template-item"><span class="t-icon">&#128269;</span> Code Review</div>
+          <div class="ss-template-item"><span class="t-icon">&#128218;</span> Tech Explainer</div>
+          <div class="ss-template-item"><span class="t-icon">&#128274;</span> Security Audit</div>
+          <div class="ss-template-item"><span class="t-icon">&#9878;</span> Legal Document Analysis</div>
+          <div class="ss-template-item"><span class="t-icon">&#128200;</span> Financial Analysis</div>
+          <div class="ss-template-item"><span class="t-icon">&#128240;</span> News Fact-Check &amp; Bias</div>
+          <div class="ss-template-item"><span class="t-icon">&#128300;</span> Research Paper Critique</div>
+        </div>
+      </div>
+      <div class="ss-card">
+        <h3>Preferences</h3>
+        <div class="ss-toggle-row">
+          <span class="t-label">Auto Summary</span>
+          <div class="ss-toggle"></div>
+        </div>
+        <div class="ss-toggle-row">
+          <span class="t-label">Cloud Consent</span>
+          <div class="ss-toggle off"></div>
+        </div>
+        <div class="ss-field" style="margin-top:8px;">
+          <label>Language</label>
+          <select><option>English</option></select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

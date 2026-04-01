@@ -44,6 +44,7 @@ jobs:
             -x 'README_ZH.md' \
             -x 'STORE_LISTING.md' \
             -x 'docs/*' \
+            -x 'store-assets/*' \
             -x 'build.sh'
           echo "--- package contents ---"
           unzip -l VibeReader-${{ steps.version.outputs.tag }}.zip
