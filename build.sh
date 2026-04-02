@@ -298,7 +298,7 @@ check_pattern() {
   local glob="$4"
   local whitelist="${5:-}"
 
-  MATCHES=$(grep -rn "$pattern" "$SRC_DIR" --include="$glob" 2>/dev/null || true)
+  MATCHES=$(grep -rn "$pattern" "$SRC_DIR" --include="$glob" --exclude-dir=node_modules --exclude-dir=store-assets --exclude-dir=.git 2>/dev/null || true)
   if [ -n "$whitelist" ] && [ -n "$MATCHES" ]; then
     MATCHES=$(echo "$MATCHES" | grep -v "$whitelist" || true)
   fi
@@ -361,7 +361,8 @@ MAX_TOTAL_KB=2048
 TOTAL_SIZE=0
 ALL_FILES=$(find "$SRC_DIR" -maxdepth 2 -type f \
   ! -name '.DS_Store' ! -name '._*' ! -name 'README.md' \
-  ! -name 'build.sh' ! -name '*.zip' ! -path '*/.git/*')
+  ! -name 'build.sh' ! -name '*.zip' \
+  ! -path '*/.git/*' ! -path '*/node_modules/*' ! -path '*/store-assets/*')
 
 while IFS= read -r f; do
   FSIZE=$(wc -c < "$f" | tr -d ' ')
@@ -418,8 +419,16 @@ zip -r "$OUT_PATH" . \
   -x '*.DS_Store' \
   -x '._*' \
   -x '*.git*' \
+  -x '.github/*' \
   -x 'README.md' \
+  -x 'README_ZH.md' \
+  -x 'STORE_LISTING.md' \
   -x 'build.sh' \
+  -x 'docs/*' \
+  -x 'store-assets/*' \
+  -x 'node_modules/*' \
+  -x 'package.json' \
+  -x 'package-lock.json' \
   -x '*.zip'
 cd "$SCRIPT_DIR"
 
