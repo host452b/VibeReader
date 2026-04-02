@@ -15,8 +15,10 @@ Desktop.ini
 *.swp
 *.swo
 
-# node (in case npm is added later)
+# node (puppeteer / dev tooling only)
 node_modules/
+package.json
+package-lock.json
 npm-debug.log*
 
 # chrome extension private key (NEVER commit)
