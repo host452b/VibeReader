@@ -4,6 +4,8 @@
 
 **[Chrome 应用商店](https://chrome.google.com/webstore)** | **[隐私政策](privacy.html)** | **[English](README.md)**
 
+![主界面 — AI 页面分析](store-assets/screenshot-1-chat.png)
+
 ---
 
 ## VibeReader 是什么？
@@ -120,6 +122,8 @@ VibeReader 是一款 **Chrome 浏览器扩展**，将浏览器变为 **AI 驱动
 
 打开 CI/CD 失败页面或 Kubernetes 事件日志 → 选择 **DevOps 根因分析** 模板 → 点击 **发送**。AI 识别根因、排列可能原因、建议验证步骤。
 
+![自动摘要侧边栏](store-assets/screenshot-2-autosum.png)
+
 ### 快速阅读长文档
 
 正在阅读 20 页的 API 参考或 RFC？启用 **自动摘要**，每次加载页面时自动生成本地化概述。或打开侧边栏提问：*"这份文档有哪些破坏性变更？"*
@@ -227,7 +231,11 @@ vibe_reader/
 
 ---
 
+![设置页面](store-assets/screenshot-5-settings.png)
+
 ## 许可
+
+MIT 许可证。详见 [LICENSE](LICENSE)。
 
 开源。无需账户。无需订阅。
 

@@ -1,24 +1,25 @@
 # Chrome Web Store 提交材料
 
 > 填写 Chrome Web Store Developer Dashboard 时直接复制粘贴以下内容。
+> 扩展 ID：`ebpfolmileibaohakcjfilkboaakknba`
 
 ---
 
-## 1. Store Listing — 基本信息
+## 1. Store Listing — 商品详情
 
-### Name (名称)
+### 标题（软件包中已包含，无需修改）
 ```
 VibeReader — AI Webpage Reader, Summarizer & Analyst
 ```
 
-### Summary (简短描述, ≤132 字符)
+### 摘要（软件包中已包含，无需修改）
 ```
 Read any webpage with AI. Local-first via Ollama, or cloud (OpenAI, Claude, Gemini). Auto summaries, smart chunking, templates.
 ```
 
-### Description (详细描述)
+### 说明（复制到"说明"文本框）
 ```
-VibeReader is an AI-powered reading assistant that extracts and analyzes webpage content in seconds. Run it entirely on your machine with Ollama, or connect to 17+ cloud AI providers.
+VibeReader is an AI-powered reading assistant that extracts and analyzes webpage content in seconds. Read any webpage with AI — run it entirely on your machine with Ollama or LM Studio, or connect to 31 cloud AI providers.
 
 KEY FEATURES
 
@@ -30,16 +31,22 @@ KEY FEATURES
 • 15 Professional Templates — DevOps RCA, Code Review, Security Audit, Legal Analysis, Financial Analysis, and more
 • RAW_TXT Editor — Inspect and edit extracted content before sending, with syntax highlighting and search
 • Multi-Turn Context — Follow-up questions carry conversation history for deeper analysis
-• Request Timer — Live elapsed time with ETA prediction
+• 4 API Formats — OpenAI Chat Completions, Anthropic Messages, OpenAI Responses, Azure OpenAI
 • i18n — Full UI in English, Japanese, and Chinese
 
-SUPPORTED AI PROVIDERS (17+)
+SUPPORTED AI PROVIDERS (31)
 
 Local (zero data leaves your device):
   Ollama, LM Studio
 
-Cloud:
-  OpenAI, Anthropic Claude, Google Gemini, DeepSeek, Groq, Mistral AI, xAI Grok, OpenRouter, Together AI, SiliconFlow, Moonshot/Kimi, Zhipu AI, Alibaba Tongyi, Doubao/Volcengine
+China Cloud:
+  DeepSeek, SiliconFlow, Moonshot/Kimi, Zhipu AI, Alibaba Tongyi, Doubao/Volcengine
+
+International Cloud:
+  OpenAI, Anthropic Claude, Google Gemini, Groq, Mistral AI, xAI Grok
+
+Routers & Aggregators:
+  OpenRouter (200+ models), Together AI
 
 Or connect any OpenAI/Anthropic-compatible endpoint.
 
@@ -58,166 +65,180 @@ USE CASES
 • Analyze bug reports and get root cause analysis
 • Cross-tab research by merging multiple pages
 • Create custom templates for repeatable workflows
+• Security audit web applications with OWASP template
+• Review legal documents and compare contract terms
 
-Open source. No account required. No subscriptions.
+Open source (MIT License). No account required. No subscriptions.
 ```
 
-### Category (分类)
+### 类别
 ```
 Productivity
 ```
 
-### Language (语言)
+### 语言
 ```
 English, Japanese, Chinese (Simplified)
 ```
 
 ---
 
-## 2. Permission Justifications — 权限说明
+## 2. 图片资源
 
-> Developer Dashboard → Privacy tab → "Permission justifications"
+### 商店图标 (128x128)
+```
+store-assets/store-icon-128x128.png
+```
 
-### `storage`
+### 截图 (1280x800, 最少1张最多5张)
+```
+store-assets/screenshot-1-chat.png          — 主界面：AI 页面分析
+store-assets/screenshot-2-autosum.png       — 自动摘要侧边栏
+store-assets/screenshot-3-raw-editor.png    — RAW_TXT 编辑器
+store-assets/screenshot-4-tab-picker.png    — 多标签页选择器
+store-assets/screenshot-5-settings.png      — 设置页面
+```
+
+### 小型宣传图块 (440x280)
+```
+store-assets/promo-small-440x280.png
+```
+
+### 顶部宣传图块 (1400x560)
+```
+store-assets/promo-marquee-1400x560.png
+```
+
+---
+
+## 3. Privacy — 隐私权
+
+### 权限说明
+
+> Developer Dashboard → 隐私权 → "权限说明"
+
+#### `storage`
 ```
 Required to save user preferences (language, AI provider, model selection, prompt templates) across browser sessions. API keys are stored in local-only storage and never synced.
 ```
 
-### `activeTab`
+#### `activeTab`
 ```
 Required to access the content of the currently active tab when the user clicks the extension icon. Used to extract visible text, page title, URL, and metadata for AI analysis.
 ```
 
-### `scripting`
+#### `scripting`
 ```
 Required to inject the content extraction script (content.js) and auto-summary sidebar (autosum.js) into web pages. These scripts extract visible text from the page DOM for AI analysis.
 ```
 
-### `sidePanel`
+#### `sidePanel`
 ```
 Required to display the main VibeReader interface as a Chrome side panel, providing a persistent workspace for page analysis alongside the browsed content.
 ```
 
-### `tabs`
+#### `tabs`
 ```
 Required for the multi-tab context feature, which allows users to select and merge content from multiple open tabs for cross-page AI analysis.
 ```
 
-### Host permissions: `https://*/*` and `http://*/*`
+#### Host permissions: `https://*/*` and `http://*/*`
 ```
 Required because the extension needs to extract text content from any webpage the user chooses to analyze. The extension only accesses page content when explicitly triggered by the user (clicking Send or enabling Auto Summary). HTTP access is needed for local development servers (localhost) used with Ollama and LM Studio.
 ```
 
----
+### 数据使用披露
 
-## 3. Privacy Practices — 数据使用披露
+> Developer Dashboard → 隐私权 → "隐私惯例"
 
-> Developer Dashboard → Privacy tab → "Privacy practices"
-
-### Does your extension collect or use user data?
+#### 您的扩展程序是否会收集或使用用户数据？
 ```
-Yes
+是
 ```
 
-### Data type: Web History
+#### 数据类型：网络历史记录
 ```
-No — We do not collect or store browsing history. Page URLs are only included in the AI request payload when the user explicitly triggers analysis.
-```
-
-### Data type: Website Content
-```
-Yes — Collected
-
-Purpose: Functionality
-  The extension extracts visible text content from web pages for AI-powered analysis and summarization. Content is sent to the user's selected AI provider only when explicitly triggered.
-
-Transferred to third parties:
-  Yes — to the AI provider selected by the user (e.g., OpenAI, Anthropic, Google). When using local providers (Ollama, LM Studio), no data is transferred.
-
-Not sold to third parties.
-Retention: Not retained by the extension. Content is held in memory only during the active session and discarded when the side panel is closed.
+否 — 我们不会收集或存储浏览历史。网页 URL 仅在用户明确触发分析时包含在 AI 请求中。
 ```
 
-### Data type: Personal Communications
+#### 数据类型：网站内容
 ```
-No
+是 — 已收集
+
+用途：功能
+  扩展提取网页可见文本用于 AI 分析和摘要。内容仅在用户明确触发时发送到所选 AI 服务商。
+
+是否传输给第三方：
+  是 — 传输给用户选择的 AI 服务商（如 OpenAI、Anthropic、Google）。使用本地服务商（Ollama、LM Studio）时不传输任何数据。
+
+不会出售给第三方。
+保留期限：扩展不保留数据。内容仅在活跃会话期间保存在内存中，关闭侧边栏后即丢弃。
 ```
 
-### Data type: Authentication Information
+#### 数据类型：个人通信
 ```
-Yes — Collected
-
-Purpose: Functionality
-  API keys for AI providers are stored locally on the device (chrome.storage.local) to authenticate requests. Keys are never synced to cloud storage.
-
-Not transferred to third parties (keys are sent directly to the user's chosen AI provider endpoint via HTTPS).
-Not sold to third parties.
+否
 ```
 
-### Data type: User Activity
+#### 数据类型：身份验证信息
 ```
-No — We do not track user activity, clicks, or usage patterns. No analytics or telemetry.
+是 — 已收集
+
+用途：功能
+  AI 服务商的 API 密钥存储在设备本地（chrome.storage.local）用于请求认证。密钥从不同步到云端存储。
+
+不会传输给第三方（密钥通过 HTTPS 直接发送到用户选择的 AI 服务商端点）。
+不会出售给第三方。
 ```
 
-### Does your extension use remote code?
+#### 数据类型：用户活动
 ```
-No — All JavaScript is bundled within the extension package. No remote scripts are loaded.
+否 — 我们不追踪用户活动、点击或使用模式。无分析、无遥测。
 ```
 
-### Does your extension load external resources?
+#### 您的扩展程序是否使用远程代码？
 ```
-No — All fonts use system font stacks. No external CDN, fonts, or stylesheet resources are loaded.
+否 — 所有 JavaScript 均打包在扩展包内。不加载远程脚本。
+```
+
+### 隐私政策 URL
+```
+chrome-extension://ebpfolmileibaohakcjfilkboaakknba/privacy.html
 ```
 
 ---
 
-## 4. Privacy Policy URL
+## 4. 分发
 
-> 可选择以下方案之一：
-
-### 方案 A：使用扩展内置页面
+### 公开范围
 ```
-chrome-extension://<YOUR_EXTENSION_ID>/privacy.html
+公开
 ```
-注意：提交后从 Developer Dashboard 获取扩展 ID 填入。
 
-### 方案 B：托管到 GitHub Pages
-将 `privacy.html` 部署到 GitHub Pages，使用类似以下 URL：
+### 分发地区
 ```
-https://<username>.github.io/vibe-reader/privacy.html
-```
-推荐方案 B，因为 Chrome Web Store 要求隐私政策 URL 可公开访问。
-
----
-
-## 5. Screenshots — 截图要求
-
-> 需要至少 1 张，最多 5 张。推荐尺寸：1280×800 或 640×400。
-
-### 建议截图内容：
-1. **主界面** — Side Panel 打开状态，展示聊天界面和页面分析结果
-2. **Auto Summary** — 页面上的自动摘要侧边栏
-3. **RAW_TXT Editor** — 展示原始文本编辑器和搜索功能
-4. **Multi-Tab Picker** — 多标签页选择器浮窗
-5. **Settings** — 设置页面，展示 17+ 提供商和模板管理
-
-### 截图生成方法：
-```bash
-# 在 Chrome 中加载扩展后，使用 DevTools 截图：
-# 1. 打开扩展 Side Panel
-# 2. Cmd+Shift+P → "Capture screenshot" (或 "Capture full size screenshot")
-# 3. 调整窗口大小为 1280x800 后截图
+所有地区
 ```
 
 ---
 
-## 6. Promotional Tile — 宣传图（可选）
+## 5. 成人内容
+```
+否 — 不包含少儿不宜的内容
+```
 
-### Small tile: 440×280
-### Large tile: 920×680
-### Marquee: 1400×560
+---
 
-建议内容：
-- 扩展 logo + 名称
-- "17+ AI Providers | Local-First | Auto Summary"
-- 简洁的 UI 截图作为背景
+## 6. Dashboard 填写步骤速查
+
+1. **商品详情** → 说明：粘贴上面的 Description 内容
+2. **商品详情** → 类别：选 `Productivity`
+3. **商品详情** → 语言：选 `English`、`Japanese`、`Chinese (Simplified)`
+4. **商品详情** → 图片资源：上传商店图标 + 5 张截图 + 宣传图块
+5. **商品详情** → 成人内容：选"否"
+6. **隐私权** → 权限说明：逐个粘贴上面每个权限的说明
+7. **隐私权** → 隐私惯例：按上面数据类型逐项填写
+8. **隐私权** → 隐私政策 URL：粘贴上面的 chrome-extension:// URL
+9. **分发** → 公开范围：选"公开"
+10. **分发** → 所有地区
+11. **提交审核**

@@ -4,6 +4,8 @@
 
 **[Chrome Web Store](https://chrome.google.com/webstore)** | **[Privacy Policy](privacy.html)** | **[中文文档](README_ZH.md)**
 
+![Main Chat Interface](store-assets/screenshot-1-chat.png)
+
 ---
 
 ## What Is VibeReader?
@@ -120,6 +122,8 @@ All templates are fully localized in EN/JA/ZH:
 
 Open a CI/CD failure page or Kubernetes event log → select the **DevOps Root Cause** template → click **SEND**. The AI identifies the root cause, ranks potential causes, and suggests validation steps.
 
+![Auto Summary Sidebar](store-assets/screenshot-2-autosum.png)
+
 ### Speed-Read Long Documentation
 
 Reading a 20-page API reference or RFC? Enable **Auto Summary** for a hands-free localized overview on every page load. Or open the side panel and ask: *"What are the breaking changes in this document?"*
@@ -227,7 +231,11 @@ See [privacy.html](privacy.html) for the full privacy policy (EN/JA/ZH).
 
 ---
 
+![Settings Page](store-assets/screenshot-5-settings.png)
+
 ## License
+
+MIT License. See [LICENSE](LICENSE) for details.
 
 Open source. No account required. No subscriptions.
 
