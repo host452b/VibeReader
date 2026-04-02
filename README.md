@@ -2,7 +2,7 @@
 
 > **Read any webpage with AI.** A Chrome extension for instant page summaries, deep-dive analysis, and smart content chunking — with 31 AI providers, local LLM support, and EN/JA/ZH language support.
 
-**[Chrome Web Store](https://chrome.google.com/webstore)** | **[Privacy Policy](privacy.html)** | **[中文文档](README_ZH.md)**
+**[Chrome Web Store](https://chrome.google.com/webstore)** | **[Privacy Policy](PRIVACY.md)** | **[中文文档](README_ZH.md)**
 
 ![Main Chat Interface](store-assets/screenshot-1-chat.png)
 
@@ -213,7 +213,7 @@ On success, outputs `VibeReader-v{version}.zip` (version read from `manifest.jso
 - **Full transparency**: review extracted content in the RAW_TXT editor before any API call
 - **Open source**: inspect every line of code
 
-See [privacy.html](privacy.html) for the full privacy policy (EN/JA/ZH).
+See [PRIVACY.md](PRIVACY.md) for the full privacy policy (EN/ZH).
 
 ---
 

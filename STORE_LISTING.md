@@ -203,7 +203,7 @@ Required because the extension needs to extract text content from any webpage th
 
 ### 隐私政策 URL
 ```
-chrome-extension://ebpfolmileibaohakcjfilkboaakknba/privacy.html
+https://github.com/host452b/VibeReader/blob/main/PRIVACY.md
 ```
 
 ---
@@ -229,7 +229,8 @@ chrome-extension://ebpfolmileibaohakcjfilkboaakknba/privacy.html
 
 ---
 
-## 6. Dashboard 填写步骤速查
+## 6. 
+shboard 填写步骤速查
 
 1. **商品详情** → 说明：粘贴上面的 Description 内容
 2. **商品详情** → 类别：选 `Productivity`

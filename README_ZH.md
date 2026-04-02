@@ -2,7 +2,7 @@
 
 > **用 AI 阅读任意网页。** 一款 Chrome 浏览器扩展，支持一键页面摘要、深度内容分析、智能分段处理 — 内置 31 个 AI 服务商，支持本地大模型，中/英/日三语界面。
 
-**[Chrome 应用商店](https://chrome.google.com/webstore)** | **[隐私政策](privacy.html)** | **[English](README.md)**
+**[Chrome 应用商店](https://chrome.google.com/webstore)** | **[隐私政策](PRIVACY.md)** | **[English](README.md)**
 
 ![主界面 — AI 页面分析](store-assets/screenshot-1-chat.png)
 
@@ -213,7 +213,7 @@ vibe_reader/
 - **完全透明**：在发送任何 API 请求前，可在 RAW_TXT 编辑器中审查提取的内容
 - **开源**：可审查每一行代码
 
-完整隐私政策（中/英/日）见 [privacy.html](privacy.html)。
+完整隐私政策（中/英）见 [PRIVACY.md](PRIVACY.md)。
 
 ---
 
