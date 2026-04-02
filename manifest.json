@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "VibeReader — AI Page Analyst & Summarizer",
+  "name": "VibeReader — AI Webpage Reader, Summarizer & Analyst",
   "version": "1.5",
   "description": "Read any webpage with AI. Local-first via Ollama, or cloud (OpenAI, Claude, Gemini). Auto summaries, smart chunking, templates.",
   "permissions": [

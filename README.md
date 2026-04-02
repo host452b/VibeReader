@@ -1,4 +1,4 @@
-# VibeReader — AI Page Analyst & Summarizer (Chrome Extension)
+# VibeReader — AI Webpage Reader, Summarizer & Analyst (Chrome Extension)
 
 > **Read any webpage with AI.** A Chrome extension for instant page summaries, deep-dive analysis, and smart content chunking — with 31 AI providers, local LLM support, and EN/JA/ZH language support.
 

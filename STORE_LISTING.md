@@ -8,7 +8,7 @@
 
 ### Name (名称)
 ```
-VibeReader — AI Page Analyst & Summarizer
+VibeReader — AI Webpage Reader, Summarizer & Analyst
 ```
 
 ### Summary (简短描述, ≤132 字符)
